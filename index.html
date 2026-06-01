@@ -42,37 +42,118 @@
     </div>
   </header>
 
-  <!-- ===================== HERO SECTION ===================== -->
-  <section class="hero" id="home">
-    <div class="container hero__inner">
+<!-- ===================== HERO SECTION — PORTFOLIO WORKSPACE PROTOTYPE ===================== -->
+<section class="hero hero--tools" id="home" aria-label="Hero — portfolio workspace">
+  <div class="ht-workspace">
 
-      <!-- Декоративний номер -->
-      <span class="hero__label">Graphic Design</span>
-
-      <!-- Великий заголовок -->
-      <h1 class="hero__title">
-        Design that<br />
-        <em>speaks</em> before<br />
-        words do.
-      </h1>
-
-      <!-- Короткий опис -->
-      <p class="hero__subtitle">
-        I craft visual identities, brand systems, and print materials
-        that are clean, intentional, and memorable.
-      </p>
-
-      <!-- Кнопки -->
-      <div class="hero__actions">
-        <a href="#works" class="btn btn--primary">View works</a>
-        <a href="#contact" class="btn btn--ghost">Contact me</a>
+    <div class="ht-topbar" aria-hidden="true">
+      <div class="ht-traffic">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
 
-      <!-- Декоративна лінія / цифра -->
-      <div class="hero__scroll-hint">↓</div>
+      <div class="ht-tab">⌘ Andrian Sl Portfolio</div>
+      <div class="ht-tab ht-tab--hide-mobile">□ Selected Works</div>
+      <div class="ht-share">Contact</div>
+    </div>
+
+    <div class="ht-stage">
+
+      <div class="ht-copy">
+        <div class="ht-eyebrow">
+          Graphic Designer / Branding / Print / Digital
+        </div>
+
+        <p class="ht-subtitle">
+          Graphic designer focused on identity, print and digital design —
+          building visual systems that feel thoughtful, clear and distinctive.
+        </p>
+
+        <div class="ht-actions">
+          <a href="#works" class="btn btn--primary">View selected works</a>
+          <a href="#contact" class="btn btn--ghost">Contact me</a>
+        </div>
+      </div>
+
+      <div class="ht-type" role="heading" aria-level="1" aria-label="Graphic design with character">
+        <div class="ht-type-line">
+          <span class="ht-type-script">graphic</span>
+        </div>
+
+        <div class="ht-type-line">
+          <span class="ht-type-word">design</span>
+        </div>
+
+        <div class="ht-type-line">
+          <span class="ht-type-small">with</span>
+        </div>
+
+        <div class="ht-type-line">
+          <span class="ht-type-word ht-selected">
+            character
+            <span class="ht-handle ht-handle--tl"></span>
+            <span class="ht-handle ht-handle--tr"></span>
+            <span class="ht-handle ht-handle--bl"></span>
+            <span class="ht-handle ht-handle--br"></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="ht-yellow-strip" aria-hidden="true">AS</div>
+
+      <div class="ht-blue-rail ht-physics" data-angle="-26" aria-hidden="true">
+        <span class="ht-rail-knob"></span>
+      </div>
+
+      <div class="ht-panel ht-card-main ht-physics" data-angle="-4" aria-hidden="true">
+        <strong>Andrian Sl</strong>
+        <span>Identity, print and digital design with clarity, taste and structure.</span>
+      </div>
+
+      <div class="ht-panel ht-card-brief ht-physics" data-angle="8" aria-hidden="true">
+        Selected works
+      </div>
+
+      <div class="ht-panel ht-card-color ht-physics" data-angle="6" aria-hidden="true">
+        <span class="ht-color-dot"></span>
+        <b>#C8622A</b>
+      </div>
+
+      <div class="ht-panel ht-card-percent ht-physics" data-angle="8" aria-hidden="true">
+        100%
+      </div>
+
+      <div class="ht-panel ht-card-note ht-physics" data-angle="-38" aria-hidden="true">
+        identity / print / digital
+      </div>
+
+      <div class="ht-panel ht-card-date ht-physics" data-angle="0" aria-hidden="true">
+        <span>Portfolio</span>
+        <b>2026</b>
+      </div>
+
+      <div class="ht-panel ht-export ht-physics" data-angle="-4" aria-hidden="true">
+        <span>LOGO</span>
+        <span>✓ PRINT</span>
+        <span>SOCIAL</span>
+      </div>
+
+      <div class="ht-tools ht-physics" data-angle="-16" aria-hidden="true">
+        <span class="ht-tool-icon"></span>
+        <span class="ht-tool-icon ht-tool-icon--circle"></span>
+        <span class="ht-tool-icon ht-tool-icon--line"></span>
+        <span class="ht-tool-icon"></span>
+      </div>
+
+      <div class="ht-mini ht-mini--1 ht-physics" data-angle="0" aria-hidden="true">↗</div>
+      <div class="ht-mini ht-mini--2 ht-physics" data-angle="0" aria-hidden="true">✓</div>
+      <div class="ht-mini ht-mini--3 ht-physics" data-angle="0" aria-hidden="true">{ }</div>
+      <div class="ht-mini ht-mini--4 ht-physics" data-angle="0" aria-hidden="true">□</div>
 
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ===================== ABOUT SECTION ===================== -->
   <section class="about section" id="about">
@@ -338,6 +419,7 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
