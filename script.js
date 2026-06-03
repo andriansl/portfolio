@@ -79,65 +79,67 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-// ===================== HERO — FIGMA SVG ANIMATION =====================
+  // ---- 4. HERO — FIGMA SVG ANIMATION ----
+  var figmaHero = document.querySelector(".hero--figma .hero-svg");
 
-const figmaHero = document.querySelector(".hero--figma .hero-svg");
+  if (figmaHero && !prefersReducedMotion) {
+    var targetConfig = [
+      { id: "top left bar", strength: 8 },
+      { id: "top right bar", strength: 8 },
+      { id: "coment", strength: 12 },
+      { id: "Toggle", strength: 9 },
+      { id: "eye icon", strength: 9 },
+      { id: "eye icon 2", strength: 9 },
+      { id: "plashka", strength: 10 },
+      { id: "plashka 2", strength: 10 },
+      { id: "plashka3", strength: 10 },
+      { id: "plaska 4", strength: 10 }
+    ];
 
-if (figmaHero) {
-  const targetConfig = [
-    { id: "top left bar", strength: 8 },
-    { id: "top right bar", strength: 8 },
-    { id: "coment", strength: 12 },
-    { id: "Toggle", strength: 9 },
-    { id: "eye icon", strength: 9 },
-    { id: "eye icon 2", strength: 9 },
-    { id: "plashka", strength: 10 },
-    { id: "plashka 2", strength: 10 },
-    { id: "plashka3", strength: 10 },
-    { id: "plaska 4", strength: 10 }
-  ];
+    function attachFigmaAnimation(target, strength) {
+      target.classList.add("anim-target");
 
-  function attachAnimation(target, strength) {
-    target.classList.add("anim-target");
+      var baseTransform = target.getAttribute("transform") || "";
 
-    const baseTransform = target.style.transform || "";
+      target.addEventListener("mousemove", function (event) {
+        var rect = target.getBoundingClientRect();
 
-    target.addEventListener("mousemove", (event) => {
-      const rect = target.getBoundingClientRect();
+        var dx = event.clientX - (rect.left + rect.width / 2);
+        var dy = event.clientY - (rect.top + rect.height / 2);
 
-      const dx = event.clientX - (rect.left + rect.width / 2);
-      const dy = event.clientY - (rect.top + rect.height / 2);
+        var nx = rect.width ? dx / (rect.width / 2) : 0;
+        var ny = rect.height ? dy / (rect.height / 2) : 0;
 
-      const nx = rect.width ? dx / (rect.width / 2) : 0;
-      const ny = rect.height ? dy / (rect.height / 2) : 0;
+        var moveX = -nx * strength;
+        var moveY = -ny * strength;
 
-      const moveX = -nx * strength;
-      const moveY = -ny * strength;
+        target.style.transform = "translate(" + moveX + "px, " + moveY + "px)";
+      });
 
-      target.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      target.addEventListener("mouseleave", function () {
+        target.style.transform = "";
+        if (baseTransform) {
+          target.setAttribute("transform", baseTransform);
+        }
+      });
+    }
+
+    targetConfig.forEach(function (item) {
+      var el = document.getElementById(item.id);
+
+      if (el) {
+        attachFigmaAnimation(el, item.strength);
+      } else {
+        console.warn("SVG group not found: " + item.id);
+      }
     });
 
-    target.addEventListener("mouseleave", () => {
-      target.style.transform = baseTransform;
+    document.addEventListener("keydown", function (event) {
+      if (event.key.toLowerCase() === "f") {
+        document.documentElement.requestFullscreen?.();
+      }
     });
   }
-
-  targetConfig.forEach((item) => {
-    const el = document.getElementById(item.id);
-
-    if (el) {
-      attachAnimation(el, item.strength);
-    } else {
-      console.warn(`SVG group not found: ${item.id}`);
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key.toLowerCase() === "f") {
-      document.documentElement.requestFullscreen?.();
-    }
-  });
-}
 
   // ---- 4. ПЛАВНА ПОЯВА ЕЛЕМЕНТІВ ПРИ СКРОЛІ ----
   // Примітка: стилі .fade-in і .fade-in.visible визначені у styles.css

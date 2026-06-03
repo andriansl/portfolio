@@ -899,17 +899,21 @@ button:focus-visible {
 .hero--figma {
   width: 100%;
   min-height: 100vh;
+  padding: 64px 0 0 !important;
+  margin: 0;
   display: grid;
-  place-items: center;
+  place-items: start center;
   overflow: hidden;
   background:
     radial-gradient(circle, #d6d6d6 1.05px, transparent 1.45px),
     #fbfbfb;
   background-size: 22px 22px;
+  border-top: 0;
 }
 
 .hero--figma .hero__figma-frame {
-  width: min(100vw, calc(100vh * 1920 / 1080));
+  width: min(100vw, calc((100vh - 64px) * 1920 / 1080));
+  height: calc(100vh - 64px);
   aspect-ratio: 1920 / 1080;
   position: relative;
   overflow: visible;
@@ -928,6 +932,7 @@ button:focus-visible {
   transform-origin: center;
   will-change: transform;
   transition: transform 340ms cubic-bezier(.2, .8, .2, 1);
+  pointer-events: bounding-box;
 }
 
 .hero--figma .hero__hint {
@@ -946,16 +951,26 @@ button:focus-visible {
   pointer-events: none;
 }
 
-@media (max-aspect-ratio: 16 / 9) {
+@media (max-width: 900px) {
+  .hero--figma {
+    padding-top: 64px !important;
+  }
+
   .hero--figma .hero__figma-frame {
     width: 100vw;
     height: auto;
   }
 }
 
-@media (min-aspect-ratio: 16 / 9) {
+@media (max-width: 600px) {
+  .hero--figma {
+    min-height: auto;
+    padding-top: 64px !important;
+    padding-bottom: 0 !important;
+  }
+
   .hero--figma .hero__figma-frame {
-    width: auto;
-    height: 100vh;
+    width: 100vw;
+    height: auto;
   }
 }
