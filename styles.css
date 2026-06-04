@@ -896,81 +896,77 @@ button:focus-visible {
 }
 /* ===================== HERO — FIGMA SVG ANIMATION ===================== */
 
+/* ===================== HERO — FIGMA SVG ANIMATION ===================== */
+
 .hero--figma {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   padding: 0 !important;
   margin: 0;
   display: grid;
-  place-items: start center;
+  place-items: center;
   overflow: hidden;
-  background:
-    radial-gradient(circle, #d6d6d6 1.05px, transparent 1.45px),
-    #fbfbfb;
-  background-size: 22px 22px;
+  background: #fbfbfb;
+  border: 0;
+}
+
+/* Прибирає можливий роздільник, якщо hero стоїть після/перед section */
+.hero--figma + .section {
   border-top: 0;
 }
 
 .hero--figma .hero__figma-frame {
-  width: min(100vw, calc(100vh * 1920 / 1080));
-  height: 100vh;
+  width: min(100vw, calc(100svh * 1920 / 1080));
   aspect-ratio: 1920 / 1080;
   position: relative;
   overflow: visible;
-  background: #fbfbfb;
+  background: transparent;
+
+  /* Підняти всю композицію трохи вище */
+  transform: translateY(-18px);
 }
 
 .hero--figma .hero-svg {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
+/* Реальні SVG-групи, які рухаються від курсора */
 .hero--figma .hero-svg .anim-target {
   cursor: pointer;
   transform-box: fill-box;
   transform-origin: center;
   will-change: transform;
   transition: transform 340ms cubic-bezier(.2, .8, .2, 1);
-  pointer-events: bounding-box;
 }
 
-.hero--figma .hero__hint {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  z-index: 10;
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.42);
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(0, 0, 0, 0.07);
-  padding: 8px 12px;
-  border-radius: 999px;
-  backdrop-filter: blur(10px);
-  pointer-events: none;
+/* Плашку-підказку приховуємо, навіть якщо вона ще лишилась у HTML */
+.hero--figma .hero__hint,
+.hero--figma .hint {
+  display: none !important;
 }
 
 @media (max-width: 900px) {
   .hero--figma {
-    padding-top: 64px !important;
+    min-height: 100svh;
+    padding: 0 !important;
   }
 
   .hero--figma .hero__figma-frame {
     width: 100vw;
-    height: auto;
+    transform: translateY(-8px);
   }
 }
 
 @media (max-width: 600px) {
   .hero--figma {
-    min-height: auto;
-    padding-top: 64px !important;
-    padding-bottom: 0 !important;
+    min-height: 100svh;
+    padding: 0 !important;
   }
 
   .hero--figma .hero__figma-frame {
     width: 100vw;
-    height: auto;
+    transform: translateY(0);
   }
 }
