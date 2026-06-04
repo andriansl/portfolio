@@ -899,7 +899,7 @@ button:focus-visible {
 .hero--figma {
   width: 100%;
   min-height: 100vh;
-  padding: 64px 0 0 !important;
+  padding: 0 !important;
   margin: 0;
   display: grid;
   place-items: start center;
@@ -912,8 +912,8 @@ button:focus-visible {
 }
 
 .hero--figma .hero__figma-frame {
-  width: min(100vw, calc((100vh - 64px) * 1920 / 1080));
-  height: calc(100vh - 64px);
+  width: min(100vw, calc(100vh * 1920 / 1080));
+  height: 100vh;
   aspect-ratio: 1920 / 1080;
   position: relative;
   overflow: visible;
