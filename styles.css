@@ -974,7 +974,6 @@ button:focus-visible {
 
 .about-section--svg-elements {
   width: 100%;
-  min-height: 100svh;
   padding: 0 !important;
   margin: 0;
   display: grid;
@@ -984,7 +983,7 @@ button:focus-visible {
   position: relative;
 }
 
-/* така сама логіка ширини, як у hero */
+/* Така сама логіка, як у hero */
 .about-section--svg-elements .about-section__stage {
   position: relative;
   width: min(100vw, calc(100svh * 1920 / 1080));
@@ -999,7 +998,7 @@ button:focus-visible {
   height: 100%;
 }
 
-/* тонкий розділювач зверху */
+/* Тонка лінія зверху секції */
 .about-section--svg-elements::before {
   content: "";
   position: absolute;
@@ -1048,7 +1047,6 @@ button:focus-visible {
 
 @media (max-width: 768px) {
   .about-section--svg-elements {
-    min-height: auto;
     place-items: start center;
   }
 
