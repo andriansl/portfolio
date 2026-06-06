@@ -970,3 +970,99 @@ button:focus-visible {
     transform: translateY(0);
   }
 }
+.about-section--svg-elements {
+  width: 100%;
+  min-height: 100svh;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #fdfdfd;
+}
+
+.about-section--svg-elements .about-section__stage {
+  position: relative;
+  width: min(100vw, calc(100svh * 1920 / 1080));
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  background: #fdfdfd;
+}
+
+.about-section--svg-elements .about-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* All important Figma layers are now real inline SVG elements.
+   These selectors target groups/objects by Figma layer ID. */
+
+.about-section--svg-elements [id="Button"],
+.about-section--svg-elements [id="Button_2"],
+.about-section--svg-elements [id="Image_2"],
+.about-section--svg-elements [id="Image_3"],
+.about-section--svg-elements [id="Ae"],
+.about-section--svg-elements [id="Ps"],
+.about-section--svg-elements [id="Ai"],
+.about-section--svg-elements [id="Untitled-1 1"],
+.about-section--svg-elements [id="Group 28"],
+.about-section--svg-elements [id="Mask group"] {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 240ms cubic-bezier(.2, .8, .2, 1),
+    filter 240ms cubic-bezier(.2, .8, .2, 1),
+    opacity 240ms cubic-bezier(.2, .8, .2, 1);
+}
+
+/* View CV button */
+.about-section--svg-elements [id="Button"] {
+  cursor: pointer;
+}
+
+.about-section--svg-elements [id="Button"]:hover {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 18px 26px rgba(0, 87, 255, 0.18));
+}
+
+/* About pill */
+.about-section--svg-elements [id="Button_2"] {
+  cursor: default;
+}
+
+/* Tool icons */
+.about-section--svg-elements [id="Image_2"],
+.about-section--svg-elements [id="Image_3"],
+.about-section--svg-elements [id="Ae"],
+.about-section--svg-elements [id="Ps"],
+.about-section--svg-elements [id="Ai"] {
+  cursor: pointer;
+}
+
+.about-section--svg-elements [id="Image_2"]:hover,
+.about-section--svg-elements [id="Image_3"]:hover,
+.about-section--svg-elements [id="Ae"]:hover,
+.about-section--svg-elements [id="Ps"]:hover,
+.about-section--svg-elements [id="Ai"]:hover {
+  transform: translateY(-5px) scale(1.04);
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.14));
+}
+
+/* Decorative/photo layers — can be animated later */
+.about-section--svg-elements [id="Untitled-1 1"],
+.about-section--svg-elements [id="Group 28"],
+.about-section--svg-elements [id="Mask group"] {
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .about-section--svg-elements {
+    min-height: auto;
+    place-items: start center;
+  }
+
+  .about-section--svg-elements .about-section__stage {
+    width: 100vw;
+  }
+}

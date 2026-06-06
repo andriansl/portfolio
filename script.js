@@ -205,5 +205,33 @@ document.addEventListener('DOMContentLoaded', function () {
   targets.forEach(function (el) {
     observer.observe(el);
   });
+document.addEventListener("DOMContentLoaded", function () {
+  var about = document.querySelector(".about-section--svg-elements");
+  if (!about) return;
+
+  // Make the SVG View CV group behave like a link.
+  var cvButton = about.querySelector('[id="Button"]');
+  if (cvButton) {
+    cvButton.setAttribute("tabindex", "0");
+    cvButton.setAttribute("role", "link");
+    cvButton.setAttribute("aria-label", "View CV");
+
+    function openCv() {
+      // Replace this with the real CV file path, for example:
+      // window.location.href = "assets/Andrian-Sl-CV.pdf";
+      window.location.href = "#";
+    }
+
+    cvButton.addEventListener("click", openCv);
+
+    cvButton.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openCv();
+      }
+    });
+  }
+});
+
 
 });
