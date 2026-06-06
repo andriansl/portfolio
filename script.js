@@ -83,55 +83,49 @@ document.addEventListener('DOMContentLoaded', function () {
   var figmaHero = document.querySelector(".hero--figma .hero-svg");
 
   if (figmaHero && !prefersReducedMotion) {
+    var heroFrame = document.querySelector(".hero--figma .hero__figma-frame");
     var targetConfig = [
-      { id: "top left bar", strength: 8 },
-      { id: "top right bar", strength: 8 },
-      { id: "coment", strength: 12 },
-      { id: "Toggle", strength: 9 },
-      { id: "eye icon", strength: 9 },
-      { id: "eye icon 2", strength: 9 },
-      { id: "plashka", strength: 10 },
-      { id: "plashka 2", strength: 10 },
-      { id: "plashka3", strength: 10 },
-      { id: "plaska 4", strength: 10 }
+      { id: "top left bar", strength: 16 },
+      { id: "top right bar", strength: 16 },
+      { id: "coment", strength: 24 },
+      { id: "Toggle", strength: 18 },
+      { id: "eye icon", strength: 20 },
+      { id: "eye icon 2", strength: 20 },
+      { id: "plashka", strength: 22 },
+      { id: "plashka 2", strength: 22 },
+      { id: "plashka3", strength: 22 },
+      { id: "plaska 4", strength: 22 }
     ];
 
-    function attachFigmaAnimation(target, strength) {
-      target.classList.add("anim-target");
-
-      var baseTransform = target.getAttribute("transform") || "";
-
-      target.addEventListener("mousemove", function (event) {
-        var rect = target.getBoundingClientRect();
-
-        var dx = event.clientX - (rect.left + rect.width / 2);
-        var dy = event.clientY - (rect.top + rect.height / 2);
-
-        var nx = rect.width ? dx / (rect.width / 2) : 0;
-        var ny = rect.height ? dy / (rect.height / 2) : 0;
-
-        var moveX = -nx * strength;
-        var moveY = -ny * strength;
-
-        target.style.transform = "translate(" + moveX + "px, " + moveY + "px)";
-      });
-
-      target.addEventListener("mouseleave", function () {
-        target.style.transform = "";
-        if (baseTransform) {
-          target.setAttribute("transform", baseTransform);
-        }
-      });
+    if (heroFrame) {
+      heroFrame.classList.add("is-ready");
     }
 
     targetConfig.forEach(function (item) {
       var el = document.getElementById(item.id);
 
-      if (el) {
-        attachFigmaAnimation(el, item.strength);
-      } else {
-        console.warn("SVG group not found: " + item.id);
-      }
+      if (!el) return;
+
+      el.classList.add("anim-target");
+
+      el.addEventListener("pointermove", function (event) {
+        var rect = el.getBoundingClientRect();
+        var nx = rect.width
+          ? (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2)
+          : 0;
+        var ny = rect.height
+          ? (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)
+          : 0;
+        var moveX = -nx * item.strength;
+        var moveY = -ny * item.strength;
+
+        el.style.transform =
+          "translate(" + moveX.toFixed(2) + "px, " + moveY.toFixed(2) + "px) scale(1.035)";
+      });
+
+      el.addEventListener("pointerleave", function () {
+        el.style.transform = "";
+      });
     });
 
     document.addEventListener("keydown", function (event) {
@@ -146,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Вибираємо всі елементи, які хочемо анімувати
   var targets = document.querySelectorAll(
-    '.work-card, .service-item, .process__step, .about__body, .about__heading'
+    '.service-item, .process__step, .about__body, .about__heading'
   );
 
   // Якщо користувач вимкнув анімації — одразу показуємо всі елементи
@@ -164,10 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---- 5. CASCADE ЗАТРИМКА ДЛЯ КАРТОК ----
   // Картки з'являються по черзі з невеликою затримкою
-  document.querySelectorAll('.works__grid .work-card').forEach(function (card, index) {
-    card.style.transitionDelay = (index * 0.08) + 's';
-  });
-
   document.querySelectorAll('.services__list .service-item').forEach(function (item, index) {
     item.style.transitionDelay = (index * 0.06) + 's';
   });
@@ -205,33 +195,73 @@ document.addEventListener('DOMContentLoaded', function () {
   targets.forEach(function (el) {
     observer.observe(el);
   });
-document.addEventListener("DOMContentLoaded", function () {
-  var about = document.querySelector(".about-section--svg-elements");
-  if (!about) return;
 
-  // Make the SVG View CV group behave like a link.
-  var cvButton = about.querySelector('[id="Button"]');
-  if (cvButton) {
-    cvButton.setAttribute("tabindex", "0");
-    cvButton.setAttribute("role", "link");
-    cvButton.setAttribute("aria-label", "View CV");
 
-    function openCv() {
-      // Replace this with the real CV file path, for example:
-      // window.location.href = "assets/Andrian-Sl-CV.pdf";
-      window.location.href = "#";
-    }
-
-    cvButton.addEventListener("click", openCv);
-
-    cvButton.addEventListener("keydown", function (event) {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        openCv();
-      }
-    });
-  }
 });
 
-
+// ---- SELECTED PROJECTS CAROUSEL ----
+document.addEventListener('DOMContentLoaded', function () {
+  const carousel = document.querySelector("[data-carousel]");
+      if (!carousel) return;
+      const track = carousel.querySelector("[data-track]");
+      const pages = [...carousel.querySelectorAll("[data-page]")];
+      const dots = [...carousel.querySelectorAll("[data-dot]")];
+      const pageCount = pages.length;
+      let activePage = 0;
+      let animationTimer = null;
+  
+      function pageOffset(page) {
+        const targetPage = pages[page];
+  
+        if (!targetPage) {
+          return 0;
+        }
+  
+        return targetPage.offsetLeft;
+      }
+  
+      function setPage(page, animate = true) {
+        const previousPage = activePage;
+        activePage = Math.max(0, Math.min(page, pageCount - 1));
+  
+        dots.forEach((dot, dotIndex) => {
+          dot.setAttribute("aria-selected", dotIndex === activePage ? "true" : "false");
+        });
+  
+        if (animationTimer) {
+          window.clearTimeout(animationTimer);
+        }
+  
+        if (animate) {
+          track.classList.add("is-switching");
+          pages.forEach((pageElement, pageIndex) => {
+            pageElement.classList.toggle("is-visible", pageIndex === previousPage || pageIndex === activePage);
+          });
+          animationTimer = window.setTimeout(() => {
+            track.classList.remove("is-switching");
+            pages.forEach((pageElement, pageIndex) => {
+              pageElement.classList.toggle("is-visible", pageIndex === activePage);
+            });
+            animationTimer = null;
+          }, 720);
+        } else {
+          pages.forEach((pageElement, pageIndex) => {
+            pageElement.classList.toggle("is-visible", pageIndex === activePage);
+          });
+        }
+  
+        track.style.transform = `translateX(${-pageOffset(activePage)}px)`;
+      }
+  
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          setPage(index);
+        });
+      });
+  
+      window.addEventListener("resize", () => {
+        setPage(activePage, false);
+      });
+  
+      setPage(0, false);
 });
