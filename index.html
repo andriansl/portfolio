@@ -1,343 +1,244 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Andrian Sl — Graphic Designer</title>
-
-  <!-- Google Fonts: Playfair Display (заголовки) + DM Sans (текст) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
-    rel="stylesheet"
-  />
-
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-
-  <!-- ===================== HEADER / NAVIGATION ===================== -->
-  <header class="header" id="header">
-    <div class="container header__inner">
-
-      <!-- Логотип / ім'я -->
-      <a href="#home" class="header__logo">Andrian Sl</a>
-
-      <!-- Бургер-кнопка для мобільного меню -->
-      <button class="header__burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <!-- Навігація -->
-      <nav class="header__nav" id="nav">
-        <a href="#about" class="nav__link">About</a>
-        <a href="#works" class="nav__link">Works</a>
-        <a href="#services" class="nav__link">Services</a>
-        <a href="#contact" class="nav__link">Contact</a>
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>andrian sl - graphic designer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="toolbar" data-toolbar>
+      <a class="toolbar-logo" href="#home">Andrian.Sl</a>
+      <nav class="toolbar-nav" aria-label="Main navigation">
+        <a href="#works">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </nav>
+    </header>
 
-    </div>
-  </header>
-
-  <!-- ===================== HERO SECTION ===================== -->
-  <section class="hero" id="home">
-    <div class="container hero__inner">
-
-      <!-- Декоративний номер -->
-      <span class="hero__label">Graphic Design</span>
-
-      <!-- Великий заголовок -->
-      <h1 class="hero__title">
-        Design that<br />
-        <em>speaks</em> before<br />
-        words do.
-      </h1>
-
-      <!-- Короткий опис -->
-      <p class="hero__subtitle">
-        I craft visual identities, brand systems, and print materials
-        that are clean, intentional, and memorable.
-      </p>
-
-      <!-- Кнопки -->
-      <div class="hero__actions">
-        <a href="#works" class="btn btn--primary">View works</a>
-        <a href="#contact" class="btn btn--ghost">Contact me</a>
-      </div>
-
-      <!-- Декоративна лінія / цифра -->
-      <div class="hero__scroll-hint">↓</div>
-
-    </div>
-  </section>
-
-  <!-- ===================== ABOUT SECTION ===================== -->
-  <section class="about section" id="about">
-    <div class="container about__inner">
-
-      <!-- Мітка секції -->
-      <span class="section__label">About me</span>
-
-      <div class="about__content">
-        <!-- Великий текст зліва -->
-        <h2 class="about__heading">
-          Turning ideas<br />into visual<br />stories.
-        </h2>
-
-        <!-- Текст і список справа -->
-        <div class="about__body">
-          <p class="about__text">
-            I'm Andrian, a graphic designer focused on creating clean,
-            modern visuals that communicate clearly and look great. I pay
-            close attention to every detail — from spacing and typography
-            to colour and composition.
-          </p>
-          <p class="about__text">
-            My work spans brand identity, logo design, print materials,
-            and social media graphics. I believe good design is invisible:
-            it just feels right.
-          </p>
-
-          <!-- Напрямки роботи -->
-          <ul class="about__skills">
-            <li>Logo design</li>
-            <li>Branding &amp; identity</li>
-            <li>Print &amp; polygraphy</li>
-            <li>Banners &amp; posters</li>
-            <li>Social media graphics</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===================== WORKS / PORTFOLIO SECTION ===================== -->
-  <section class="works section" id="works">
-    <div class="container">
-
-      <div class="section__header">
-        <span class="section__label">Selected works</span>
-        <h2 class="section__title">Projects</h2>
-      </div>
-
-      <!-- Сітка проєктів -->
-      <div class="works__grid">
-
-        <!-- Картка 1 -->
-        <article class="work-card">
-          <div class="work-card__thumb work-card__thumb--1">
-            <span class="work-card__number">01</span>
-          </div>
-          <div class="work-card__info">
-            <span class="work-card__category">Brand identity</span>
-            <h3 class="work-card__title">Lumina Studio</h3>
-            <p class="work-card__desc">Complete visual identity for a photography studio — logo, colour palette, and stationery set.</p>
-          </div>
-        </article>
-
-        <!-- Картка 2 -->
-        <article class="work-card">
-          <div class="work-card__thumb work-card__thumb--2">
-            <span class="work-card__number">02</span>
-          </div>
-          <div class="work-card__info">
-            <span class="work-card__category">Logo design</span>
-            <h3 class="work-card__title">Verdant Coffee</h3>
-            <p class="work-card__desc">Minimalist wordmark and emblem for a specialty coffee brand with an organic, earthy feel.</p>
-          </div>
-        </article>
-
-        <!-- Картка 3 -->
-        <article class="work-card">
-          <div class="work-card__thumb work-card__thumb--3">
-            <span class="work-card__number">03</span>
-          </div>
-          <div class="work-card__info">
-            <span class="work-card__category">Print design</span>
-            <h3 class="work-card__title">Form Magazine</h3>
-            <p class="work-card__desc">Editorial layout design for a quarterly architecture and design magazine, 64 pages.</p>
-          </div>
-        </article>
-
-        <!-- Картка 4 -->
-        <article class="work-card">
-          <div class="work-card__thumb work-card__thumb--4">
-            <span class="work-card__number">04</span>
-          </div>
-          <div class="work-card__info">
-            <span class="work-card__category">Social media</span>
-            <h3 class="work-card__title">Bloom Botanics</h3>
-            <p class="work-card__desc">Cohesive Instagram template system for a plant shop — 12 reusable post and story formats.</p>
-          </div>
-        </article>
-
-        <!-- Картка 5 -->
-        <article class="work-card">
-          <div class="work-card__thumb work-card__thumb--5">
-            <span class="work-card__number">05</span>
-          </div>
-          <div class="work-card__info">
-            <span class="work-card__category">Poster &amp; banner</span>
-            <h3 class="work-card__title">Nocturne Festival</h3>
-            <p class="work-card__desc">Event poster series and outdoor banner artwork for an annual jazz and art festival.</p>
-          </div>
-        </article>
-
-        <!-- Картка 6 -->
-        <article class="work-card">
-          <div class="work-card__thumb work-card__thumb--6">
-            <span class="work-card__number">06</span>
-          </div>
-          <div class="work-card__info">
-            <span class="work-card__category">Illustration</span>
-            <h3 class="work-card__title">Fable &amp; Fern</h3>
-            <p class="work-card__desc">Custom illustrated characters and pattern set for a children's book publisher.</p>
-          </div>
-        </article>
-
-      </div><!-- /.works__grid -->
-    </div>
-  </section>
-
-  <!-- ===================== SERVICES SECTION ===================== -->
-  <section class="services section" id="services">
-    <div class="container">
-
-      <div class="section__header">
-        <span class="section__label">What I offer</span>
-        <h2 class="section__title">Services</h2>
-      </div>
-
-      <ul class="services__list">
-
-        <li class="service-item">
-          <span class="service-item__icon">◎</span>
-          <h3 class="service-item__title">Logo design</h3>
-          <p class="service-item__desc">Unique, scalable logos built around your brand's personality and values.</p>
-        </li>
-
-        <li class="service-item">
-          <span class="service-item__icon">◈</span>
-          <h3 class="service-item__title">Brand identity</h3>
-          <p class="service-item__desc">Full visual systems: colours, typography, guidelines, and brand materials.</p>
-        </li>
-
-        <li class="service-item">
-          <span class="service-item__icon">◻</span>
-          <h3 class="service-item__title">Print design</h3>
-          <p class="service-item__desc">Business cards, brochures, packaging, and editorial layouts ready for print.</p>
-        </li>
-
-        <li class="service-item">
-          <span class="service-item__icon">◷</span>
-          <h3 class="service-item__title">Social media design</h3>
-          <p class="service-item__desc">Consistent, eye-catching templates for Instagram, Facebook, and beyond.</p>
-        </li>
-
-        <li class="service-item">
-          <span class="service-item__icon">◬</span>
-          <h3 class="service-item__title">Posters &amp; banners</h3>
-          <p class="service-item__desc">Event artwork, outdoor advertising, and promotional materials that stand out.</p>
-        </li>
-
-        <li class="service-item">
-          <span class="service-item__icon">◌</span>
-          <h3 class="service-item__title">Illustration</h3>
-          <p class="service-item__desc">Custom characters, icons, and patterns tailored to your project's tone.</p>
-        </li>
-
-      </ul>
-
-    </div>
-  </section>
-
-  <!-- ===================== PROCESS SECTION ===================== -->
-  <section class="process section" id="process">
-    <div class="container">
-
-      <div class="section__header">
-        <span class="section__label">How I work</span>
-        <h2 class="section__title">Process</h2>
-      </div>
-
-      <div class="process__steps">
-
-        <div class="process__step">
-          <span class="process__num">01</span>
-          <h3 class="process__title">Brief</h3>
-          <p class="process__desc">We start with a conversation. I learn about your business, goals, audience, and preferences.</p>
+    <main>
+      <section class="hero page-shell hero--hidden" aria-hidden="true">
+        <div class="hero-avatar" aria-hidden="true">
+          <span>AS</span>
         </div>
 
-        <div class="process__step">
-          <span class="process__num">02</span>
-          <h3 class="process__title">Concept</h3>
-          <p class="process__desc">I research and sketch initial directions — exploring ideas before committing to one path.</p>
+        <h1>
+          <span>Hey, I’m Andrian,</span>
+          <span>a graphic designer creating</span>
+          <span>campaigns, identities and layouts.</span>
+        </h1>
+
+        <div class="hero-actions">
+          <a class="pill-button" href="#works">See my work</a>
+          <a class="hero-primary" href="#contact">Let’s work together</a>
+        </div>
+      </section>
+
+      <section class="hanzo-hero" id="home" aria-label="Portfolio hero">
+        <div class="hanzo-booking">
+          <span></span>
+          Open for selected projects
         </div>
 
-        <div class="process__step">
-          <span class="process__num">03</span>
-          <h3 class="process__title">Design</h3>
-          <p class="process__desc">I refine the chosen concept, build out all assets, and present for your feedback.</p>
-        </div>
+        <h1 class="hanzo-title" data-hero-title>
+          <span class="hanzo-row hanzo-row--top">
+            <span class="hanzo-word" data-split-text>Visual</span>
+            <span class="hanzo-media hanzo-media--cards">
+              <span class="hanzo-vertical-track" aria-hidden="true">
+                <i></i><i></i><i></i><i></i>
+              </span>
+            </span>
+            <span class="hanzo-word hanzo-word--muted" data-split-text>Systems</span>
+          </span>
+          <span class="hanzo-row hanzo-row--bottom">
+            <span class="hanzo-word hanzo-word--muted" data-split-text>for</span>
+            <span class="hanzo-media hanzo-media--mark">
+              <span class="hanzo-horizontal-track" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </span>
+            </span>
+            <span class="hanzo-word" data-split-text>Screens & Print</span>
+          </span>
+        </h1>
 
-        <div class="process__step">
-          <span class="process__num">04</span>
-          <h3 class="process__title">Final files</h3>
-          <p class="process__desc">Delivery of all source files and export-ready formats — print, web, and everything in between.</p>
-        </div>
+        <p class="hanzo-copy">
+          Digital campaigns, identity assets and print-ready layouts built to stay clear across formats.
+        </p>
 
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===================== CONTACT SECTION ===================== -->
-  <section class="contact section" id="contact">
-    <div class="container contact__inner">
-
-      <span class="section__label">Get in touch</span>
-
-      <h2 class="contact__heading">
-        Let's make something<br /><em>worth looking at.</em>
-      </h2>
-
-      <p class="contact__text">
-        Have a project in mind? I'd love to hear about it.
-        Reach out and let's talk.
-      </p>
-
-      <!-- Контактні посилання -->
-      <div class="contact__links">
-        <a href="mailto:hello@andriansl.com" class="contact__link">
-          <span class="contact__link-label">Email</span>
-          hello@andriansl.com
+        <a class="hanzo-cta" href="#works">
+          See selected work
+          <span>→</span>
         </a>
-        <a href="https://www.behance.net/andriansl" target="_blank" rel="noopener noreferrer" class="contact__link">
-          <span class="contact__link-label">Behance</span>
-          behance.net/andriansl
-        </a>
-        <a href="https://www.instagram.com/andriansl" target="_blank" rel="noopener noreferrer" class="contact__link">
-          <span class="contact__link-label">Instagram</span>
-          @andriansl
-        </a>
-      </div>
+      </section>
 
-    </div>
-  </section>
+      <section class="works page-shell" id="works" aria-label="Selected works">
+        <article class="project project--featured reveal">
+          <a class="project-media media-brand" href="#contact" aria-label="Open identity system project">
+            <span class="project-arrow">↗</span>
+            <div class="brand-system-art">
+              <span></span><span></span><span></span>
+              <strong>andrian sl</strong>
+            </div>
+          </a>
+          <p class="project-client">Independent Client</p>
+          <h2>Visual Identity System</h2>
+        </article>
 
-  <!-- ===================== FOOTER ===================== -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <span class="footer__name">Andrian Sl</span>
-      <span class="footer__copy">Graphic designer — creating with intention.</span>
-      <span class="footer__year">© 2026</span>
-    </div>
-  </footer>
+        <div class="project-grid">
+          <article class="project reveal">
+            <a class="project-media media-mark" href="#contact" aria-label="Open branding project">
+              <span class="project-arrow">↗</span>
+              <div class="wave-mark" aria-hidden="true"></div>
+            </a>
+            <p class="project-client">Brand Concept</p>
+            <h2>Symbol & Brand Mark</h2>
+          </article>
 
-  <script src="script.js"></script>
-</body>
+          <article class="project reveal">
+            <a class="project-media media-mobile" href="#contact" aria-label="Open digital assets project">
+              <span class="project-arrow">↗</span>
+              <div class="phone-ui" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </a>
+            <p class="project-client">Digital Campaign</p>
+            <h2>Social Media Visual Kit</h2>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media media-line" href="#contact" aria-label="Open infographic project">
+              <span class="project-arrow">↗</span>
+              <div class="line-art" aria-hidden="true"></div>
+            </a>
+            <p class="project-client">Print Direction</p>
+            <h2>Technical Layout & Prepress</h2>
+          </article>
+
+          <article class="project reveal">
+            <a class="project-media media-plugin" href="#contact" aria-label="Open presentation project">
+              <span class="project-arrow">↗</span>
+              <div class="window-ui" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+            </a>
+            <p class="project-client">Presentation Design</p>
+            <h2>Pitch Deck Visual System</h2>
+          </article>
+        </div>
+      </section>
+
+      <section class="experience page-shell reveal" id="experience">
+        <p class="section-label">Experience</p>
+        <div class="experience-list">
+          <article class="experience-item" data-experience-item>
+            <p class="experience-period">11.2025 / Now</p>
+            <h2>Graphic Designer</h2>
+            <p class="experience-company">MEGOGO</p>
+            <p class="experience-description">
+              Digital creatives for campaigns, paid ads, promo visuals and key visual adaptations for films, series and special projects.
+            </p>
+          </article>
+
+          <article class="experience-item" data-experience-item>
+            <p class="experience-period">03.2024 / 08.2025</p>
+            <h2>Graphic Designer</h2>
+            <p class="experience-company">Otto Gans</p>
+            <p class="experience-description">
+              Logos, flyers, banners, souvenirs, wide-format layouts, prepress checks and client communication from brief to production.
+            </p>
+          </article>
+
+          <article class="experience-item" data-experience-item>
+            <p class="experience-period">02.2022 / 08.2022</p>
+            <h2>Content Maker / Graphic Designer</h2>
+            <p class="experience-company">Pixophone</p>
+            <p class="experience-description">
+              Logo refresh, identity materials, business cards, flyers, price lists and Instagram visuals for a consistent local brand presence.
+            </p>
+          </article>
+
+          <article class="experience-item" data-experience-item>
+            <p class="experience-period">07.2020 / 03.2024</p>
+            <h2>Graphic Designer</h2>
+            <p class="experience-company">Freelance</p>
+            <p class="experience-description">
+              Logos, catalogs, banners, social media visuals and print-ready layouts for small businesses, local and English-speaking clients.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="about-placeholder page-shell reveal" id="about">
+        <p class="section-label">About</p>
+      </section>
+
+      <section class="services page-shell reveal" id="services" aria-label="Services">
+        <p class="section-label">Services</p>
+        <div class="service-list">
+          <details data-service>
+            <summary>Branding <span>↓</span></summary>
+            <ul class="service-panel">
+              <li>Logo Design</li>
+              <li>Visual Identity</li>
+              <li>Brand Guidelines</li>
+              <li>Printed & Social Assets</li>
+            </ul>
+          </details>
+          <details data-service>
+            <summary>Digital Campaigns <span>↓</span></summary>
+            <ul class="service-panel">
+              <li>Key Visuals</li>
+              <li>Paid Ads & Banners</li>
+              <li>Social Media Packs</li>
+              <li>Format Adaptation</li>
+            </ul>
+          </details>
+          <details data-service>
+            <summary>Layout & Editorial <span>↓</span></summary>
+            <ul class="service-panel">
+              <li>Presentation Decks</li>
+              <li>Editorial Layouts</li>
+              <li>Portfolio Case Design</li>
+              <li>Grid Systems</li>
+            </ul>
+          </details>
+          <details data-service>
+            <summary>Print & Prepress <span>↓</span></summary>
+            <ul class="service-panel">
+              <li>Print Layouts</li>
+              <li>Prepress Check</li>
+              <li>Large-format Materials</li>
+              <li>Final File Export</li>
+            </ul>
+          </details>
+        </div>
+      </section>
+
+      <footer class="contact" id="contact">
+        <div class="footer-shell reveal">
+          <div>
+            <p class="section-label">Contact</p>
+            <h2>Let’s start creating together</h2>
+            <a class="footer-button" href="mailto:hello@andriansl.design">Let’s talk ↗</a>
+          </div>
+
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="#works">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+
+          <nav class="footer-nav" aria-label="Social links">
+            <a href="mailto:hello@andriansl.design">Email ↗</a>
+            <a href="#works">Portfolio ↗</a>
+            <a href="#contact">Freelance ↗</a>
+          </nav>
+
+          <p class="footer-note">2026 portfolio prototype for andrian sl</p>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,148 +1,126 @@
-/* ============================================================
-   script.js — Andrian Sl Portfolio
-   JavaScript відповідає тільки за поведінку:
-   1. Мобільне меню (бургер) + доступність
-   2. Тінь хедера при скролі
-   3. Плавна поява елементів при скролі (Intersection Observer)
+const toolbar = document.querySelector("[data-toolbar]");
+const navLinks = [...document.querySelectorAll(".toolbar-nav a")];
+const experienceSection = document.querySelector(".experience");
+const experienceItems = [...document.querySelectorAll("[data-experience-item]")];
+const serviceRows = [...document.querySelectorAll("[data-service]")];
+const sections = navLinks
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+const contactLinks = [...document.querySelectorAll('a[href="#contact"]')];
 
-   Стилі .fade-in і .fade-in.visible — у styles.css
-   ============================================================ */
+const isAtPageBottom = () =>
+  window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8;
 
-document.addEventListener('DOMContentLoaded', function () {
+const splitHeroText = () => {
+  const textGroups = [...document.querySelectorAll("[data-split-text]")];
+  let timelineOffset = 260;
 
-  // ---- 1. ПЕРЕВІРКА REDUCED MOTION ----
-  // Якщо користувач вимкнув анімації в системі — не запускаємо fade-in
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  textGroups.forEach((group, groupIndex) => {
+    const text = group.textContent || "";
+    group.textContent = "";
 
+    [...text].forEach((character, charIndex) => {
+      const span = document.createElement("span");
 
-  // ---- 2. МОБІЛЬНЕ МЕНЮ ----
-  var burger = document.getElementById('burger');
-  var nav    = document.getElementById('nav');
-
-  // Функція відкриття меню
-  function openMenu() {
-    burger.classList.add('open');
-    nav.classList.add('open');
-    burger.setAttribute('aria-expanded', 'true');  // для screen readers
-  }
-
-  // Функція закриття меню
-  function closeMenu() {
-    burger.classList.remove('open');
-    nav.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false'); // для screen readers
-  }
-
-  if (burger && nav) {
-
-    // Відкриваємо/закриваємо меню при кліку на бургер
-    burger.addEventListener('click', function () {
-      var isOpen = burger.classList.contains('open');
-      if (isOpen) {
-        closeMenu();
+      if (character === " ") {
+        span.className = "hanzo-space";
+        span.textContent = " ";
       } else {
-        openMenu();
+        span.className = "hanzo-char";
+        span.textContent = character;
+        span.style.setProperty("--char-delay", `${timelineOffset + charIndex * 24}ms`);
       }
+
+      group.append(span);
     });
 
-    // Закриваємо меню при кліку на навігаційне посилання
-    nav.querySelectorAll('.nav__link').forEach(function (link) {
-      link.addEventListener('click', function () {
-        closeMenu();
+    timelineOffset += text.replace(/\s/g, "").length * 24 + (groupIndex % 2 === 0 ? 150 : 190);
+  });
+};
+
+splitHeroText();
+
+requestAnimationFrame(() => {
+  document.body.classList.add("is-loaded");
+});
+
+const updateToolbar = () => {
+  if (!toolbar) return;
+
+  toolbar.classList.toggle("is-compact", window.scrollY > 36);
+
+  const active = isAtPageBottom()
+    ? document.querySelector("#contact")
+    : sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= 150 && rect.bottom > 150;
       });
-    });
 
-    // Закриваємо меню по клавіші Escape
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && burger.classList.contains('open')) {
-        closeMenu();
-        burger.focus(); // повертаємо фокус на бургер після закриття
+  navLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.getAttribute("href") === `#${active?.id}`);
+  });
+};
+
+contactLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    window.scrollTo({
+      top: document.documentElement.scrollHeight - window.innerHeight,
+      behavior: "smooth",
+    });
+  });
+});
+
+serviceRows.forEach((row) => {
+  row.addEventListener("toggle", () => {
+    if (!row.open) return;
+
+    serviceRows.forEach((otherRow) => {
+      if (otherRow !== row) {
+        otherRow.open = false;
       }
     });
+  });
+});
 
-  }
+const setActiveExperience = (activeItem) => {
+  const activeIndex = experienceItems.indexOf(activeItem);
 
-
-  // ---- 3. ТІНЬ ХЕДЕРА ПРИ СКРОЛІ ----
-  var header = document.getElementById('header');
-
-  if (header) {
-    window.addEventListener('scroll', function () {
-      // Якщо прокрутили більше 20px — додаємо клас .scrolled
-      if (window.scrollY > 20) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-  }
-
-
-  // ---- 4. ПЛАВНА ПОЯВА ЕЛЕМЕНТІВ ПРИ СКРОЛІ ----
-  // Примітка: стилі .fade-in і .fade-in.visible визначені у styles.css
-
-  // Вибираємо всі елементи, які хочемо анімувати
-  var targets = document.querySelectorAll(
-    '.work-card, .service-item, .process__step, .about__body, .about__heading'
-  );
-
-  // Якщо користувач вимкнув анімації — одразу показуємо всі елементи
-  if (prefersReducedMotion) {
-    targets.forEach(function (el) {
-      el.classList.add('visible'); // без fade-in, просто видимі
-    });
-    return; // зупиняємо виконання решти коду
-  }
-
-  // Додаємо клас .fade-in (початковий прихований стан)
-  targets.forEach(function (el) {
-    el.classList.add('fade-in');
+  experienceItems.forEach((item) => {
+    item.classList.toggle("is-active", Boolean(activeItem) && item === activeItem);
   });
 
-  // ---- 5. CASCADE ЗАТРИМКА ДЛЯ КАРТОК ----
-  // Картки з'являються по черзі з невеликою затримкою
-  document.querySelectorAll('.works__grid .work-card').forEach(function (card, index) {
-    card.style.transitionDelay = (index * 0.08) + 's';
-  });
+  experienceSection?.style.setProperty("--experience-active", String(Math.max(activeIndex, 0)));
+};
 
-  document.querySelectorAll('.services__list .service-item').forEach(function (item, index) {
-    item.style.transitionDelay = (index * 0.06) + 's';
-  });
+const updateExperience = () => {
+  if (!experienceItems.length || !experienceSection) return;
 
-  // ---- 6. INTERSECTION OBSERVER ----
-  // Стежимо, коли елемент потрапляє у зону видимості
+  const readingLine = window.innerHeight * 0.48;
+  const sectionRect = experienceSection.getBoundingClientRect();
 
-  // Fallback: якщо браузер не підтримує IntersectionObserver
-  // (дуже старі браузери) — одразу показуємо всі елементи
-  if (!('IntersectionObserver' in window)) {
-    targets.forEach(function (el) {
-      el.classList.add('visible');
-    });
+  if (sectionRect.top > readingLine || sectionRect.bottom < readingLine) {
+    setActiveExperience(null);
     return;
   }
 
-  // Створюємо спостерігач
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          // Елемент потрапив у видиму зону — показуємо його
-          entry.target.classList.add('visible');
-          // Зупиняємо спостереження — анімація потрібна тільки раз
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.1, // спрацьовує, коли 10% елемента видно
-    }
-  );
+  const closestItem = experienceItems.reduce((closest, item) => {
+    const rect = item.getBoundingClientRect();
+    const itemCenter = rect.top + rect.height / 2;
+    const distance = Math.abs(itemCenter - readingLine);
 
-  // Запускаємо спостереження для кожного елемента
-  targets.forEach(function (el) {
-    observer.observe(el);
-  });
+    return distance < closest.distance ? { item, distance } : closest;
+  }, { item: experienceItems[0], distance: Number.POSITIVE_INFINITY }).item;
 
+  setActiveExperience(closestItem);
+};
+
+window.addEventListener("scroll", updateToolbar, { passive: true });
+window.addEventListener("scroll", updateExperience, { passive: true });
+window.addEventListener("resize", () => {
+  updateToolbar();
+  updateExperience();
 });
+updateToolbar();
+updateExperience();
