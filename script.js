@@ -13,7 +13,8 @@ const isAtPageBottom = () =>
 
 const splitHeroText = () => {
   const textGroups = [...document.querySelectorAll("[data-split-text]")];
-  let timelineOffset = 260;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let timelineOffset = 430;
 
   textGroups.forEach((group, groupIndex) => {
     const text = group.textContent || "";
@@ -28,13 +29,16 @@ const splitHeroText = () => {
       } else {
         span.className = "hanzo-char";
         span.textContent = character;
-        span.style.setProperty("--char-delay", `${timelineOffset + charIndex * 24}ms`);
+        span.style.setProperty(
+          "--char-delay",
+          prefersReducedMotion ? "0ms" : `${timelineOffset + charIndex * 22}ms`,
+        );
       }
 
       group.append(span);
     });
 
-    timelineOffset += text.replace(/\s/g, "").length * 24 + (groupIndex % 2 === 0 ? 150 : 190);
+    timelineOffset += text.replace(/\s/g, "").length * 22 + (groupIndex % 2 === 0 ? 170 : 200);
   });
 };
 

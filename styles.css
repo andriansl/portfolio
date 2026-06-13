@@ -23,6 +23,7 @@ body {
   color: var(--ink);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-optical-sizing: auto;
   letter-spacing: 0;
 }
 
@@ -112,7 +113,7 @@ body.is-loaded .toolbar {
   border-color: rgba(0, 0, 0, 0.09);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.12);
+  box-shadow: none;
   backdrop-filter: blur(18px) saturate(1.18);
   transform: translateX(-50%);
 }
@@ -295,34 +296,36 @@ body.is-loaded .hero-actions {
 }
 
 .hanzo-hero {
-  --capsule-w: clamp(150px, 9.2vw, 186px);
-  --capsule-h: clamp(96px, 5.85vw, 118px);
+  --capsule-w: clamp(144px, 7.5vw, 180px);
+  --capsule-h: clamp(96px, 5.6vw, 116px);
 
   position: relative;
   display: grid;
   min-height: 100vh;
-  overflow-x: clip;
   align-content: start;
   justify-items: center;
-  padding: 238px 0 72px;
+  overflow-x: clip;
+  padding: clamp(228px, 18vh, 278px) 0 76px;
   background: #ffffff;
   text-align: center;
 }
 
 .hanzo-booking {
   position: absolute;
-  top: 156px;
+  top: 128px;
   left: 50%;
   display: inline-flex;
   min-height: 48px;
   align-items: center;
   gap: 13px;
   padding: 0 24px;
+  border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.08);
+  background: transparent;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   color: #141414;
   font-size: clamp(16px, 1.25vw, 24px);
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.04em;
   opacity: 0;
@@ -341,29 +344,34 @@ body.is-loaded .hero-actions {
 
 .hanzo-title {
   display: grid;
-  gap: clamp(24px, 2.45vw, 42px);
+  gap: clamp(28px, 2.15vw, 42px);
   justify-items: stretch;
-  width: min(calc(100% - 96px), 1600px);
+  width: min(calc(100% - 96px), 1508px);
   margin: 0;
   color: #000000;
-  font-size: clamp(72px, 8vw, 146px);
-  font-weight: 740;
+  font-size: clamp(70px, 7.35vw, 105px);
+  font-weight: 500;
   line-height: 0.92;
-  letter-spacing: -0.072em;
+  letter-spacing: -0.064em;
   text-align: left;
 }
 
 .hanzo-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--capsule-w) minmax(0, 1fr);
+  grid-template-columns: minmax(0, auto) var(--capsule-w) minmax(0, auto);
   align-items: center;
-  gap: clamp(24px, 2.4vw, 44px);
+  justify-content: center;
+  gap: clamp(28px, 2.15vw, 42px);
   white-space: nowrap;
 }
 
 .hanzo-row--top,
 .hanzo-row--bottom {
   transform: none;
+}
+
+.hanzo-row--bottom {
+  margin-left: clamp(-12px, -0.7vw, 0px);
 }
 
 .hanzo-row > .hanzo-word:first-child {
@@ -381,12 +389,21 @@ body.is-loaded .hero-actions {
 
 .hanzo-word {
   display: block;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.hanzo-word[data-split-text] {
+  opacity: 0;
+}
+
+body.is-loaded .hanzo-word[data-split-text],
+.hanzo-word:has(.hanzo-char) {
+  opacity: 1;
 }
 
 .hanzo-word--muted {
   color: #777777;
-  font-weight: 520;
+  font-weight: 500;
 }
 
 .hanzo-media {
@@ -396,62 +413,56 @@ body.is-loaded .hero-actions {
   height: var(--capsule-h);
   overflow: hidden;
   place-items: center;
-  border-radius: clamp(30px, 1.9vw, 38px);
-  box-shadow:
-    0 18px 38px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 2px rgba(0, 0, 0, 0.08);
+  border: 2px solid #000000;
+  border-radius: clamp(24px, 1.7vw, 32px);
+  background: #dedfe7;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.14);
   opacity: 0;
-  filter: blur(8px);
-  will-change: transform, opacity, filter;
+  filter: none;
+  will-change: transform, opacity;
 }
 
 .hanzo-media--cards {
-  background: #efefed;
-  transform: translateY(38px) rotate(-10deg) scale(0.88);
+  background: #dedfe7;
+  transform: translateY(40px) rotate(-20deg) scale(0.9);
 }
 
 .hanzo-vertical-track {
   display: grid;
   width: 100%;
-  animation: hanzoVerticalLoop 5.4s linear infinite;
+  transform: translateY(0);
+  will-change: transform;
 }
 
 .hanzo-vertical-track i {
   display: block;
   width: var(--capsule-w);
   height: var(--capsule-h);
-  background:
-    linear-gradient(130deg, rgba(255, 255, 255, 0.65), transparent 32%),
-    linear-gradient(120deg, #f0d340 0 35%, #527b61 35% 68%, #f5f3e8 68% 100%);
+  background: linear-gradient(120deg, #f0d340 0 35%, #527b61 35% 68%, #f5f3e8 68% 100%);
 }
 
 .hanzo-vertical-track i:nth-child(2) {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.62), transparent 34%),
-    linear-gradient(120deg, #111111 0 42%, #7345ff 42% 70%, #f7f7f3 70% 100%);
+  background: linear-gradient(120deg, #111111 0 42%, #7345ff 42% 70%, #f7f7f3 70% 100%);
 }
 
 .hanzo-vertical-track i:nth-child(3) {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 38%),
-    linear-gradient(120deg, #2457ff 0 34%, #f0f0ef 34% 63%, #171717 63% 100%);
+  background: linear-gradient(120deg, #2457ff 0 34%, #f0f0ef 34% 63%, #171717 63% 100%);
 }
 
 .hanzo-vertical-track i:nth-child(4) {
-  background:
-    linear-gradient(130deg, rgba(255, 255, 255, 0.65), transparent 32%),
-    linear-gradient(120deg, #f0d340 0 35%, #527b61 35% 68%, #f5f3e8 68% 100%);
+  background: linear-gradient(120deg, #f0d340 0 35%, #527b61 35% 68%, #f5f3e8 68% 100%);
 }
 
 .hanzo-media--mark {
   background: #222222;
-  transform: translateY(42px) rotate(12deg) scale(0.88);
+  transform: translateY(42px) rotate(18deg) scale(0.9);
 }
 
 .hanzo-horizontal-track {
   display: flex;
   width: max-content;
-  animation: hanzoHorizontalLoop 4.8s linear infinite;
+  transform: translateX(0);
+  will-change: transform;
 }
 
 .hanzo-horizontal-track i {
@@ -472,12 +483,15 @@ body.is-loaded .hero-actions {
 }
 
 .hanzo-copy {
-  max-width: 760px;
-  margin: 42px 0 0;
+  width: min(calc(100% - 96px), 1040px);
+  max-width: none;
+  margin: clamp(36px, 3.25vw, 54px) auto 0;
   color: #777777;
   font-size: clamp(17px, 1.25vw, 22px);
   line-height: 1.55;
   letter-spacing: -0.035em;
+  text-align: center;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(32px);
   transition:
@@ -490,7 +504,7 @@ body.is-loaded .hero-actions {
   min-height: 74px;
   align-items: center;
   gap: 22px;
-  margin-top: 88px;
+  margin-top: clamp(58px, 6.2vw, 118px);
   padding: 0 36px;
   border: 10px solid rgba(255, 255, 255, 0.78);
   border-radius: 999px;
@@ -524,11 +538,19 @@ body.is-loaded .hanzo-booking {
 }
 
 body.is-loaded .hanzo-media--cards {
-  animation: capsuleRollCards 980ms cubic-bezier(0.22, 1, 0.36, 1) 620ms forwards;
+  animation: capsuleRollCards 980ms cubic-bezier(0.22, 1, 0.36, 1) 610ms forwards;
+}
+
+body.is-loaded .hanzo-media--cards .hanzo-vertical-track {
+  animation: hanzoCardsLoop 6600ms linear 1480ms infinite;
 }
 
 body.is-loaded .hanzo-media--mark {
-  animation: capsuleRollMark 980ms cubic-bezier(0.22, 1, 0.36, 1) 860ms forwards;
+  animation: capsuleRollMark 980ms cubic-bezier(0.22, 1, 0.36, 1) 790ms forwards;
+}
+
+body.is-loaded .hanzo-media--mark .hanzo-horizontal-track {
+  animation: hanzoMarkLoop 3200ms linear 1640ms infinite;
 }
 
 body.is-loaded .hanzo-copy,
@@ -542,7 +564,7 @@ body.is-loaded .hanzo-cta {
   opacity: 0;
   filter: blur(12px);
   transform: translateY(24px);
-  animation: letterResolve 880ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: letterResolve 980ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: var(--char-delay, 0ms);
   will-change: transform, opacity, filter;
 }
@@ -570,64 +592,72 @@ body.is-loaded .hanzo-cta {
 @keyframes capsuleRollCards {
   0% {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(38px) rotate(-10deg) scale(0.88);
+    transform: translateY(40px) rotate(-20deg) scale(0.9);
   }
-  72% {
+  64% {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(-3px) rotate(3deg) scale(1.015);
+    transform: translateY(-4px) rotate(3deg) scale(1.015);
   }
   100% {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) rotate(0deg) scale(1);
+    transform: translateY(0) rotate(-4deg) scale(1);
   }
 }
 
 @keyframes capsuleRollMark {
   0% {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(42px) rotate(12deg) scale(0.88);
+    transform: translateY(42px) rotate(18deg) scale(0.9);
   }
-  72% {
+  64% {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(-3px) rotate(-3deg) scale(1.015);
+    transform: translateY(-4px) rotate(-3deg) scale(1.015);
   }
   100% {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(0) rotate(0deg) scale(1);
+    transform: translateY(0) rotate(3deg) scale(1);
   }
 }
 
-@keyframes hanzoVerticalLoop {
+@keyframes hanzoCardsLoop {
   0%,
   18% {
     transform: translateY(0);
   }
-  28%,
-  46% {
+
+  18% {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  34%,
+  52% {
     transform: translateY(calc(var(--capsule-h) * -1));
   }
-  56%,
-  74% {
+
+  52% {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  68%,
+  86% {
     transform: translateY(calc(var(--capsule-h) * -2));
   }
-  84%,
+
+  86% {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   100% {
     transform: translateY(calc(var(--capsule-h) * -3));
   }
 }
 
-@keyframes hanzoHorizontalLoop {
+@keyframes hanzoMarkLoop {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-246px);
+    transform: translateX(-82px);
   }
 }
 
@@ -1314,20 +1344,21 @@ body.is-loaded .hanzo-cta {
   }
 
   .hanzo-hero {
-    --capsule-w: 118px;
-    --capsule-h: 88px;
+    --capsule-w: 112px;
+    --capsule-h: 78px;
 
-    padding-inline: 22px;
+    padding: 196px 22px 72px;
   }
 
   .hanzo-title {
-    width: min(calc(100% - 44px), 1040px);
-    gap: 28px;
-    font-size: clamp(54px, 9.8vw, 92px);
+    width: min(calc(100% - 44px), 960px);
+    gap: 24px;
+    font-size: clamp(48px, 8.9vw, 82px);
+    letter-spacing: -0.062em;
   }
 
   .hanzo-row {
-    gap: 24px;
+    gap: 20px;
   }
 
   .hanzo-media {
@@ -1426,31 +1457,35 @@ body.is-loaded .hanzo-cta {
   }
 
   .hanzo-hero {
-    --capsule-w: 74px;
+    --capsule-w: 76px;
     --capsule-h: 54px;
 
-    min-height: 860px;
-    padding: 118px 18px 72px;
+    min-height: 780px;
+    padding: 140px 14px 64px;
   }
 
   .hanzo-booking {
-    top: 74px;
+    top: 56px;
     min-height: 42px;
     padding-inline: 18px;
     font-size: 15px;
   }
 
   .hanzo-title {
-    width: min(100% - 28px, 560px);
-    gap: 16px;
-    margin-top: 46px;
-    font-size: clamp(38px, 11vw, 56px);
+    width: min(100%, 540px);
+    gap: 15px;
+    margin-top: 38px;
+    font-size: clamp(34px, 10.1vw, 50px);
     line-height: 0.94;
-    letter-spacing: -0.068em;
+    letter-spacing: -0.058em;
   }
 
   .hanzo-row {
-    gap: 10px;
+    gap: 9px;
+  }
+
+  .hanzo-row--bottom {
+    margin-left: 0;
   }
 
   .hanzo-media {
@@ -1458,9 +1493,12 @@ body.is-loaded .hanzo-cta {
   }
 
   .hanzo-copy {
+    width: min(calc(100% - 44px), 330px);
     max-width: 330px;
     margin-top: 32px;
     font-size: 16px;
+    text-align: center;
+    white-space: normal;
   }
 
   .hanzo-cta {
