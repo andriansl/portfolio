@@ -2,7 +2,7 @@ const toolbar = document.querySelector("[data-toolbar]");
 const navLinks = [...document.querySelectorAll(".toolbar-nav a")];
 const experienceSection = document.querySelector(".experience");
 const experienceItems = [...document.querySelectorAll("[data-experience-item]")];
-const serviceRows = [...document.querySelectorAll("[data-service]")];
+const howWorkItems = [...document.querySelectorAll("[data-work-item]")];
 const sections = navLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
@@ -76,15 +76,24 @@ contactLinks.forEach((link) => {
   });
 });
 
-serviceRows.forEach((row) => {
-  row.addEventListener("toggle", () => {
-    if (!row.open) return;
+const setHowWorkItemOpen = (activeItem) => {
+  howWorkItems.forEach((item) => {
+    const isOpen = Boolean(activeItem) && item === activeItem;
+    const trigger = item.querySelector(".how-i-work__trigger");
+    const icon = item.querySelector(".how-i-work__icon");
 
-    serviceRows.forEach((otherRow) => {
-      if (otherRow !== row) {
-        otherRow.open = false;
-      }
-    });
+    item.classList.toggle("is-open", isOpen);
+    trigger?.setAttribute("aria-expanded", String(isOpen));
+
+    if (icon) {
+      icon.textContent = isOpen ? "−" : "+";
+    }
+  });
+};
+
+howWorkItems.forEach((item) => {
+  item.querySelector(".how-i-work__trigger")?.addEventListener("click", () => {
+    setHowWorkItemOpen(item.classList.contains("is-open") ? null : item);
   });
 });
 
