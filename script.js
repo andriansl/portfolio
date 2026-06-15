@@ -4,9 +4,51 @@ const experienceSection = document.querySelector(".experience");
 const experienceItems = [...document.querySelectorAll("[data-experience-item]")];
 const howWorkItems = [...document.querySelectorAll("[data-work-item]")];
 const sections = navLinks
-  .map((link) => document.querySelector(link.getAttribute("href")))
+  .map((link) => {
+    const href = link.getAttribute("href");
+    return href && href.startsWith("#") ? document.querySelector(href) : null;
+  })
   .filter(Boolean);
 const contactLinks = [...document.querySelectorAll('a[href="#contact"]')];
+
+const initAboutReveal = () => {
+  const aboutSection = document.querySelector(".about-reveal");
+  if (!aboutSection) return;
+
+  const aboutVisual = aboutSection.querySelector("[data-about-animated-src]");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const showAbout = () => {
+    const animatedSrc = aboutVisual?.getAttribute("data-about-animated-src");
+
+    if (!prefersReducedMotion && animatedSrc && aboutVisual.getAttribute("src") !== animatedSrc) {
+      aboutVisual.setAttribute("src", animatedSrc);
+    }
+
+    aboutSection.classList.add("is-visible");
+  };
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    showAbout();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        showAbout();
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.18,
+      rootMargin: "0px 0px -10% 0px",
+    },
+  );
+
+  observer.observe(aboutSection);
+};
 
 const isAtPageBottom = () =>
   window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8;
@@ -42,7 +84,61 @@ const splitHeroText = () => {
   });
 };
 
+const initHeroLogoStrip = () => {
+  const strip = document.querySelector(".hero-logo-strip");
+  const viewport = strip?.closest(".hanzo-media--mark");
+  const logos = strip ? [...strip.querySelectorAll(".hero-logo")] : [];
+
+  if (!strip || !viewport || !logos.length) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReducedMotion) {
+    logos[0]?.style.setProperty("--hero-logo-opacity", "0.58");
+    logos[0]?.style.setProperty("--hero-logo-brightness", "0.86");
+    return;
+  }
+
+  const inactiveOpacity = 0.24;
+  const activeOpacity = 0.58;
+  const inactiveBrightness = 0.68;
+  const activeBrightness = 0.86;
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const smoothstep = (value) => {
+    const x = clamp(value);
+    return x * x * (3 - 2 * x);
+  };
+
+  const updateActiveLogo = () => {
+    const viewportRect = viewport.getBoundingClientRect();
+    const activeX = viewportRect.left + viewportRect.width * 0.5;
+
+    logos.forEach((logo) => {
+      const slot = logo.closest(".hanzo-logo-slot") || logo;
+      const rect = slot.getBoundingClientRect();
+      const visibleWidth = Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
+      const visibleRatio = Math.max(0, Math.min(1, visibleWidth / rect.width));
+      const center = rect.left + rect.width / 2;
+      const distanceRatio = Math.abs(center - activeX) / (viewportRect.width * 0.58);
+      const entryProgress = smoothstep((visibleRatio - 0.32) / 0.68);
+      const centerProgress = smoothstep(1 - distanceRatio);
+      const activity = clamp(entryProgress * centerProgress);
+      const opacity = inactiveOpacity + (activeOpacity - inactiveOpacity) * activity;
+      const brightness = inactiveBrightness + (activeBrightness - inactiveBrightness) * activity;
+
+      logo.style.setProperty("--hero-logo-opacity", opacity.toFixed(3));
+      logo.style.setProperty("--hero-logo-brightness", brightness.toFixed(3));
+    });
+
+    requestAnimationFrame(updateActiveLogo);
+  };
+
+  requestAnimationFrame(updateActiveLogo);
+};
+
 splitHeroText();
+initAboutReveal();
+initHeroLogoStrip();
 
 requestAnimationFrame(() => {
   document.body.classList.add("is-loaded");
