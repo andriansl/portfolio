@@ -463,7 +463,7 @@ body.is-loaded .hanzo-word[data-split-text],
   min-height: 74px;
   align-items: center;
   gap: 22px;
-  margin-top: clamp(58px, 6.2vw, 118px);
+  margin-top: calc(clamp(58px, 6.2vw, 118px) - 20px);
   padding: 0 36px;
   border: 10px solid rgba(255, 255, 255, 0.78);
   border-radius: 999px;
@@ -967,7 +967,7 @@ body.is-loaded .hanzo-cta {
 .how-i-work__title {
   display: grid;
   margin: 0;
-  font-size: clamp(70px, 7.35vw, 105px);
+  font-size: 68px;
   font-weight: 500;
   line-height: 0.92;
   letter-spacing: -0.064em;
@@ -1258,7 +1258,7 @@ body.is-loaded .hanzo-cta {
   }
 
   .how-i-work__title {
-    font-size: clamp(64px, 11vw, 94px);
+    font-size: clamp(44px, 11vw, 68px);
   }
 
   .how-i-work__trigger {
@@ -1378,7 +1378,7 @@ body.is-loaded .hanzo-cta {
 
   .hanzo-cta {
     min-height: 62px;
-    margin-top: 34px;
+    margin-top: 14px;
     padding-inline: 26px;
     border-width: 8px;
     font-size: 16px;
@@ -1437,7 +1437,7 @@ body.is-loaded .hanzo-cta {
   }
 
   .how-i-work__title {
-    font-size: clamp(48px, 14vw, 68px);
+    font-size: clamp(44px, 11vw, 68px);
     line-height: 0.92;
   }
 
@@ -1566,11 +1566,6 @@ body.is-loaded .hanzo-cta {
 .pixophone-cover--base {
   opacity: 1;
   transform: scale(1.01);
-}
-
-.pixophone-cover--hover {
-  display: none;
-  opacity: 0;
 }
 
 .project-media--pixophone:hover .pixophone-cover--base {
@@ -1782,5 +1777,466 @@ body.is-loaded .hanzo-cta {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+}
+
+.about-section {
+  width: 100%;
+  padding: 0 0 var(--section-gap);
+  background: #ffffff;
+}
+
+.about-frame {
+  --frame-h: 620px;
+  --photo-x: 0px;
+  --photo-y: 34px;
+  --photo-w: 430px;
+  --photo-h: 540px;
+  --photo-bottom: calc(var(--photo-y) + var(--photo-h));
+  --content-x: 480px;
+  --card-h: 194px;
+  --card-y: calc(var(--photo-bottom) - var(--card-h));
+  --description-y: 246px;
+  --description-line: 24px;
+  --description-lines: 2;
+  --description-bottom: calc(var(--description-y) + (var(--description-line) * var(--description-lines)));
+  --button-h: 37px;
+  --button-y: calc((var(--description-bottom) + var(--card-y) - var(--button-h)) / 2);
+
+  position: relative;
+  width: min(calc(100% - 140px), 1064px);
+  height: var(--frame-h);
+  margin-inline: auto;
+}
+
+.about-photo {
+  position: absolute;
+  left: var(--photo-x);
+  top: var(--photo-y);
+  width: var(--photo-w);
+  height: var(--photo-h);
+  margin: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #d9d9d9;
+}
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-label {
+  position: absolute;
+  top: var(--photo-y);
+  left: var(--content-x);
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.about-title {
+  position: absolute;
+  top: 160px;
+  left: var(--content-x);
+  max-width: 560px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 68px;
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.065em;
+  white-space: nowrap;
+}
+
+.about-description {
+  position: absolute;
+  top: var(--description-y);
+  left: var(--content-x);
+  width: 560px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: var(--description-line);
+  letter-spacing: -0.025em;
+}
+
+.about-pills {
+  position: absolute;
+  top: var(--button-y);
+  left: var(--content-x);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.about-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  height: var(--button-h);
+  padding: 0 16px;
+  border: 1px solid rgba(0, 3, 15, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  font-size: 11.7px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+
+.about-pill--open {
+  width: 127.13px;
+}
+
+.about-pill--ukraine {
+  width: 103.63px;
+}
+
+.about-pill--behance {
+  width: 108.97px;
+}
+
+.about-pill--cv {
+  width: 135px;
+  border-color: var(--black);
+  background: var(--black);
+  color: #ffffff;
+}
+
+.pill-icon {
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.pill-dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #65c93b;
+}
+
+.pill-icon--ukraine {
+  width: 10.79px;
+  height: 13.43px;
+}
+
+.pill-icon--behance {
+  width: 16.02px;
+  height: 10.53px;
+}
+
+.pill-icon--download {
+  width: 10.68px;
+  height: 10.64px;
+}
+
+.pill-icon--download-white {
+  filter: brightness(0) invert(1);
+}
+
+.about-card {
+  position: absolute;
+  width: 186px;
+  height: var(--card-h);
+  overflow: hidden;
+  border: 1px solid rgba(0, 3, 15, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.about-card--books {
+  top: var(--card-y);
+  left: var(--content-x);
+}
+
+.about-card--stack {
+  top: var(--card-y);
+  left: 678px;
+}
+
+.about-card--notes {
+  top: var(--card-y);
+  left: 878px;
+}
+
+.card-icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: block;
+  object-fit: contain;
+}
+
+.card-icon--books {
+  width: 14.53px;
+  height: 18.09px;
+}
+
+.card-icon--stack {
+  width: 17px;
+  height: 17px;
+}
+
+.card-icon--notes {
+  width: 14px;
+  height: 14px;
+}
+
+.card-arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 13px;
+  height: 13px;
+  opacity: 0.72;
+}
+
+.card-title {
+  position: absolute;
+  top: 48px;
+  left: 16px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.card-small {
+  position: absolute;
+  top: 69px;
+  left: 16px;
+  margin: 0;
+  color: #777777;
+  font-size: 11.7px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.book-cover-crop {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 120px;
+  height: 100px;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+}
+
+.book-cover-image {
+  display: block;
+  width: 120px;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+  border-top-left-radius: 8px;
+}
+
+.figma-icon {
+  position: absolute;
+  right: 18px;
+  bottom: 30px;
+  width: 56px;
+  height: 56px;
+}
+
+.tools-list {
+  position: absolute;
+  right: 16px;
+  bottom: 18px;
+  left: 16px;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tools-list li {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-height: 22px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(0, 3, 15, 0.09);
+  color: var(--ink);
+  font-size: 11.7px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.tools-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.tools-list img {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  opacity: 0.76;
+}
+
+.tool-text {
+  display: inline-block;
+  flex: 1 1 auto;
+}
+
+.about-reveal .about-frame > * {
+  --about-delay: 0ms;
+
+  opacity: 0;
+  transform: translateY(30px);
+  filter: blur(12px);
+  transition:
+    opacity 820ms cubic-bezier(0.22, 1, 0.36, 1) var(--about-delay),
+    transform 820ms cubic-bezier(0.22, 1, 0.36, 1) var(--about-delay),
+    filter 820ms cubic-bezier(0.22, 1, 0.36, 1) var(--about-delay);
+  will-change: opacity, transform, filter;
+}
+
+.about-reveal .about-photo {
+  --about-delay: 0ms;
+
+  transform: translateY(24px) scale(0.985);
+}
+
+.about-reveal .about-label {
+  --about-delay: 120ms;
+}
+
+.about-reveal .about-title {
+  --about-delay: 180ms;
+}
+
+.about-reveal .about-description {
+  --about-delay: 260ms;
+}
+
+.about-reveal .about-pills {
+  --about-delay: 360ms;
+
+  transform: translateY(22px);
+}
+
+.about-reveal .about-card--books {
+  --about-delay: 470ms;
+}
+
+.about-reveal .about-card--stack {
+  --about-delay: 540ms;
+}
+
+.about-reveal .about-card--notes {
+  --about-delay: 610ms;
+}
+
+.about-reveal.is-visible .about-frame > * {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+@media (max-width: 900px) {
+  .about-section {
+    padding: 64px 0 80px;
+  }
+
+  .about-frame {
+    width: min(calc(100% - 44px), 1064px);
+    height: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .about-frame > * {
+    position: static;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .about-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 430 / 540;
+  }
+
+  .about-title {
+    font-size: clamp(44px, 11vw, 68px);
+    line-height: 0.95;
+    letter-spacing: -0.065em;
+    white-space: normal;
+  }
+
+  .about-description {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .about-pills {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .about-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: 194px;
+  }
+
+  .about-card--books,
+  .about-card--stack,
+  .about-card--notes {
+    left: auto;
+    top: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-frame {
+    width: min(calc(100% - 28px), 1064px);
+  }
+
+  .about-pills {
+    gap: 10px;
+  }
+
+  .about-pill {
+    width: auto;
+    min-width: 0;
+    padding-inline: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-reveal .about-frame > * {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
   }
 }

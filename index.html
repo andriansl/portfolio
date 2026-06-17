@@ -4,9 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>andrian sl - graphic designer</title>
+    <meta name="description" content="Portfolio of Andrian Sl, a graphic designer creating visual systems for screens and print." />
+    <meta property="og:title" content="Andrian Sl — Graphic Designer" />
+    <meta property="og:description" content="Portfolio of Andrian Sl, a graphic designer creating visual systems for screens and print." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./assets/pixophone/01.webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="./assets/about-section-animated.svg" as="image" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -27,7 +31,7 @@
           Open to work
         </div>
 
-        <h1 class="hanzo-title" data-hero-title>
+        <h1 class="hanzo-title" data-hero-title aria-label="Visual Systems for Screens and Print">
           <span class="hanzo-row hanzo-row--top">
             <span class="hanzo-word" data-split-text>Visual</span>
             <span class="hanzo-media hanzo-media--cards">
@@ -56,7 +60,7 @@
         </h1>
 
         <p class="hanzo-copy">
-          Digital campaigns, identity assets and print-ready layouts built to stay clear across formats.
+          Campaign visuals, identity assets and print-ready layouts designed to work clearly across formats.
         </p>
 
         <a class="hanzo-cta" href="#works">
@@ -73,12 +77,8 @@
               class="pixophone-cover pixophone-cover--base"
               src="./assets/pixophone/01.webp"
               alt="Pixophone visual identity cover"
-            />
-            <img
-              class="pixophone-cover pixophone-cover--hover"
-              src="./assets/pixophone/12.webp"
-              alt="Pixophone signage mockup preview"
-              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
             />
           </a>
           <p class="project-client">Retail identity, logo refresh, print and digital assets.</p>
@@ -169,30 +169,77 @@
         </div>
       </section>
 
-      <section class="about-exact about-reveal" id="about" aria-label="About Andrian">
-        <div class="about-exact__frame">
-          <p class="section-label about-exact__label">About</p>
-          <img
-            src="./assets/about-section.svg"
-            data-about-animated-src="./assets/about-section-animated.svg"
-            alt="About Andrian — graphic designer creating clear visual systems for screens and print"
-            class="about-exact__svg"
-          />
+      <section class="about-section about-reveal" id="about" aria-labelledby="about-title">
+        <div class="about-frame">
+          <figure class="about-photo" aria-label="Portrait of Andrian Sl">
+            <img src="./assets/about/about-photo.webp" alt="Portrait of Andrian Sl" loading="lazy" decoding="async" />
+          </figure>
 
-          <a
-            class="about-exact__hotspot about-exact__hotspot--behance"
-            href="https://www.behance.net/andriansl"
-            aria-label="Open Andrian’s Behance"
-            target="_blank"
-            rel="noreferrer"
-          ></a>
+          <p class="section-label about-label">About</p>
 
-          <a
-            class="about-exact__hotspot about-exact__hotspot--cv"
-            href="./assets/andrian-sl-cv.docx"
-            aria-label="Download Andrian’s CV"
-            download
-          ></a>
+          <h2 class="about-title" id="about-title">Hi, I’m Andrian.</h2>
+
+          <p class="about-description">
+            Graphic designer creating visual systems for screens and print,<br />
+            combining campaign visuals, identity thinking and prepress experience.
+          </p>
+
+          <div class="about-pills" aria-label="About links and status">
+            <span class="about-pill about-pill--open">
+              <span class="pill-dot" aria-hidden="true"></span>
+              <span>Open to Work</span>
+            </span>
+            <span class="about-pill about-pill--ukraine">
+              <img class="pill-icon pill-icon--ukraine" src="./assets/about/Icon6.svg" alt="" />
+              Ukraine
+            </span>
+            <a class="about-pill about-pill--behance" href="https://www.behance.net/andriansl" target="_blank" rel="noreferrer">
+              <img class="pill-icon pill-icon--behance" src="./assets/about/Vector.svg" alt="" />
+              Behance
+            </a>
+            <a class="about-pill about-pill--cv" href="./assets/andrian-slabyi-cv-english-aligned.pdf" target="_blank" rel="noreferrer">
+              <img class="pill-icon pill-icon--download pill-icon--download-white" src="./assets/about/Icon7.svg" alt="" />
+              Download CV
+            </a>
+          </div>
+
+          <article class="about-card about-card--books">
+            <img class="card-icon card-icon--books" src="./assets/about/Icon.svg" alt="" />
+            <img class="card-arrow" src="./assets/about/Vector 46.svg" alt="" />
+            <h3 class="card-title">Bookshelf</h3>
+            <p class="card-small">10 books</p>
+            <div class="book-cover-crop" aria-hidden="true">
+              <img class="book-cover-image" src="./assets/about/book-cover.png" alt="" />
+            </div>
+          </article>
+
+          <article class="about-card about-card--stack">
+            <img class="card-icon card-icon--stack" src="./assets/about/Icon1.svg" alt="" />
+            <img class="card-arrow" src="./assets/about/Vector 46.svg" alt="" />
+            <h3 class="card-title">Stack</h3>
+            <p class="card-small">8 tools</p>
+            <img class="figma-icon" src="./assets/about/Colored.svg" alt="Figma" />
+          </article>
+
+          <article class="about-card about-card--notes">
+            <img class="card-icon card-icon--notes" src="./assets/about/Icon2.svg" alt="" />
+            <img class="card-arrow" src="./assets/about/Vector 46.svg" alt="" />
+            <h3 class="card-title">Design Notes</h3>
+            <ul class="tools-list">
+              <li>
+                <img src="./assets/about/Icon3.svg" alt="" />
+                <span class="tool-text">Clarity first</span>
+              </li>
+              <li>
+                <img src="./assets/about/visual-systems-icon.svg" alt="" />
+                <span class="tool-text">Visual systems</span>
+              </li>
+              <li>
+                <img src="./assets/about/Icon5.svg" alt="" />
+                <span class="tool-text">Details matter</span>
+              </li>
+            </ul>
+          </article>
         </div>
       </section>
 
@@ -260,7 +307,7 @@
           <div>
             <p class="section-label">Contact</p>
             <h2>Let’s start creating together</h2>
-            <a class="footer-button" href="mailto:hello@andriansl.design">Let’s talk ↗</a>
+            <a class="footer-button" href="mailto:sic-itur-ad-astra@ukr.net">Let’s talk ↗</a>
           </div>
 
           <nav class="footer-nav" aria-label="Footer navigation">
@@ -270,16 +317,16 @@
           </nav>
 
           <nav class="footer-nav" aria-label="Social links">
-            <a href="mailto:hello@andriansl.design">Email ↗</a>
-            <a href="#works">Portfolio ↗</a>
-            <a href="#contact">Freelance ↗</a>
+            <a href="mailto:sic-itur-ad-astra@ukr.net">Email ↗</a>
+            <a href="https://www.behance.net/andriansl" target="_blank" rel="noreferrer">Behance ↗</a>
+            <a href="./assets/andrian-slabyi-cv-english-aligned.pdf" target="_blank" rel="noreferrer">Download CV ↗</a>
           </nav>
 
-          <p class="footer-note">2026 portfolio prototype for andrian sl</p>
+          <p class="footer-note">© 2026 Andrian Sl — Visual Systems for Screens &amp; Print</p>
         </div>
       </footer>
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>

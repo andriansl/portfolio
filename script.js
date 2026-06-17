@@ -239,11 +239,23 @@ const updateExperience = () => {
   setActiveExperience(closestItem);
 };
 
-window.addEventListener("scroll", updateToolbar, { passive: true });
-window.addEventListener("scroll", updateExperience, { passive: true });
-window.addEventListener("resize", () => {
+let scrollUpdatePending = false;
+
+const updateScrollState = () => {
+  scrollUpdatePending = false;
   updateToolbar();
   updateExperience();
+};
+
+const scheduleScrollUpdate = () => {
+  if (scrollUpdatePending) return;
+
+  scrollUpdatePending = true;
+  requestAnimationFrame(updateScrollState);
+};
+
+window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+window.addEventListener("resize", () => {
+  scheduleScrollUpdate();
 });
-updateToolbar();
-updateExperience();
+updateScrollState();
