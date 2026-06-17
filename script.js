@@ -15,20 +15,11 @@ const initAboutReveal = () => {
   const aboutSection = document.querySelector(".about-reveal");
   if (!aboutSection) return;
 
-  const aboutVisual = aboutSection.querySelector("[data-about-animated-src]");
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   const showAbout = () => {
-    const animatedSrc = aboutVisual?.getAttribute("data-about-animated-src");
-
-    if (!prefersReducedMotion && animatedSrc && aboutVisual.getAttribute("src") !== animatedSrc) {
-      aboutVisual.setAttribute("src", animatedSrc);
-    }
-
     aboutSection.classList.add("is-visible");
   };
 
-  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
     showAbout();
     return;
   }
