@@ -225,7 +225,6 @@ const initExperienceReveal = () => {
 
   experienceItems.forEach((item, itemIndex) => {
     item.style.setProperty("--experience-item-delay", `${itemIndex * 120}ms`);
-    splitExperienceTypingText(item.querySelector(".experience-description-mobile"), 300);
   });
 
   if (!("IntersectionObserver" in window)) {
