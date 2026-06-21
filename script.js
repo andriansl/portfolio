@@ -15,11 +15,20 @@ const initAboutReveal = () => {
   const aboutSection = document.querySelector(".about-reveal");
   if (!aboutSection) return;
 
+  const aboutVisual = aboutSection.querySelector("[data-about-animated-src]");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   const showAbout = () => {
+    const animatedSrc = aboutVisual?.getAttribute("data-about-animated-src");
+
+    if (!prefersReducedMotion && animatedSrc && aboutVisual.getAttribute("src") !== animatedSrc) {
+      aboutVisual.setAttribute("src", animatedSrc);
+    }
+
     aboutSection.classList.add("is-visible");
   };
 
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
     showAbout();
     return;
   }
@@ -111,37 +120,138 @@ const isAtPageBottom = () =>
   window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8;
 
 const splitHeroText = () => {
-  const textGroups = [...document.querySelectorAll("[data-split-text]")];
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let timelineOffset = 430;
 
-  textGroups.forEach((group, groupIndex) => {
-    const text = group.textContent || "";
-    group.textContent = "";
+  const splitGroups = (textGroups) => {
+    let timelineOffset = 430;
 
-    [...text].forEach((character, charIndex) => {
-      const span = document.createElement("span");
+    textGroups.forEach((group, groupIndex) => {
+      const text = group.textContent || "";
+      group.textContent = "";
 
-      if (character === " ") {
-        span.className = "hanzo-space";
-        span.textContent = " ";
-      } else {
-        span.className = "hanzo-char";
-        span.textContent = character;
-        span.style.setProperty(
-          "--char-delay",
-          prefersReducedMotion ? "0ms" : `${timelineOffset + charIndex * 22}ms`,
-        );
+      [...text].forEach((character, charIndex) => {
+        const span = document.createElement("span");
+
+        if (character === " ") {
+          span.className = "hanzo-space";
+          span.textContent = " ";
+        } else {
+          span.className = "hanzo-char";
+          span.textContent = character;
+          span.style.setProperty(
+            "--char-delay",
+            prefersReducedMotion ? "0ms" : `${timelineOffset + charIndex * 22}ms`,
+          );
+        }
+
+        group.append(span);
+      });
+
+      timelineOffset += text.replace(/\s/g, "").length * 22 + (groupIndex % 2 === 0 ? 170 : 200);
+    });
+  };
+
+  splitGroups([...document.querySelectorAll(".hanzo-title [data-split-text]")]);
+  splitGroups([...document.querySelectorAll(".hanzo-mobile-title [data-split-text]")]);
+};
+
+const splitExperienceTypingText = (element, baseDelay = 0) => {
+  if (!element || element.dataset.experienceSplit === "true") return;
+
+  let charIndex = 0;
+  const fragment = document.createDocumentFragment();
+
+  const appendText = (text, target) => {
+    text.split(/(\s+)/).forEach((part) => {
+      if (!part) return;
+
+      if (/^\s+$/.test(part)) {
+        target.append(document.createTextNode(part));
+        return;
       }
 
-      group.append(span);
-    });
+      const word = document.createElement("span");
+      word.className = "experience-type-word";
 
-    timelineOffset += text.replace(/\s/g, "").length * 22 + (groupIndex % 2 === 0 ? 170 : 200);
+      [...part].forEach((character) => {
+        const span = document.createElement("span");
+        span.className = "experience-type-char";
+        span.textContent = character;
+        span.style.setProperty("--experience-char-delay", `${baseDelay + charIndex * 16}ms`);
+        charIndex += 1;
+        word.append(span);
+      });
+
+      target.append(word);
+    });
+  };
+
+  [...element.childNodes].forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      appendText(node.textContent || "", fragment);
+      return;
+    }
+
+    if (node.nodeName === "BR") {
+      fragment.append(document.createElement("br"));
+    }
   });
+
+  element.textContent = "";
+  element.append(fragment);
+  element.dataset.experienceSplit = "true";
+};
+
+const initExperienceReveal = () => {
+  if (!experienceSection || !experienceItems.length) return;
+
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!mobileQuery.matches) return;
+
+  experienceSection.classList.add("is-mobile-animated");
+
+  const showExperience = () => {
+    experienceItems.forEach((item) => {
+      item.classList.add("is-experience-visible");
+    });
+  };
+
+  if (prefersReducedMotion) {
+    showExperience();
+    return;
+  }
+
+  experienceItems.forEach((item, itemIndex) => {
+    item.style.setProperty("--experience-item-delay", `${itemIndex * 120}ms`);
+    splitExperienceTypingText(item.querySelector(".experience-description-mobile"), 300);
+  });
+
+  if (!("IntersectionObserver" in window)) {
+    showExperience();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        showExperience();
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.16,
+      rootMargin: "0px 0px -12% 0px",
+    },
+  );
+
+  observer.observe(experienceSection);
 };
 
 splitHeroText();
+initExperienceReveal();
 initAboutReveal();
 initHeroLogoStrip();
 
