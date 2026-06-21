@@ -158,7 +158,7 @@ const splitHeroText = () => {
 const splitExperienceTypingText = (element, baseDelay = 0) => {
   if (!element || element.dataset.experienceSplit === "true") return;
 
-  let charIndex = 0;
+  let wordIndex = 0;
   const fragment = document.createDocumentFragment();
 
   const appendText = (text, target) => {
@@ -172,15 +172,9 @@ const splitExperienceTypingText = (element, baseDelay = 0) => {
 
       const word = document.createElement("span");
       word.className = "experience-type-word";
-
-      [...part].forEach((character) => {
-        const span = document.createElement("span");
-        span.className = "experience-type-char";
-        span.textContent = character;
-        span.style.setProperty("--experience-char-delay", `${baseDelay + charIndex * 16}ms`);
-        charIndex += 1;
-        word.append(span);
-      });
+      word.textContent = part;
+      word.style.setProperty("--experience-word-delay", `${baseDelay + wordIndex * 54}ms`);
+      wordIndex += 1;
 
       target.append(word);
     });
@@ -225,6 +219,7 @@ const initExperienceReveal = () => {
 
   experienceItems.forEach((item, itemIndex) => {
     item.style.setProperty("--experience-item-delay", `${itemIndex * 120}ms`);
+    splitExperienceTypingText(item.querySelector(".experience-description-mobile"), 180);
   });
 
   if (!("IntersectionObserver" in window)) {
