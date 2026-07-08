@@ -155,6 +155,150 @@ const splitHeroText = () => {
   splitGroups([...document.querySelectorAll(".hanzo-mobile-title [data-split-text]")]);
 };
 
+const splitProximityText = () => {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const targets = [...document.querySelectorAll("[data-proximity-text]")];
+  let timelineOffset = 160;
+
+  const createCharacterSpan = (character, state) => {
+    const span = document.createElement("span");
+    span.className = "hanzo-char";
+    span.textContent = character;
+    span.style.setProperty(
+      "--char-delay",
+      prefersReducedMotion ? "0ms" : `${timelineOffset + state.charIndex * 14}ms`,
+    );
+    state.charIndex += 1;
+    return span;
+  };
+
+  const splitTextNode = (node, state) => {
+    const fragment = document.createDocumentFragment();
+    const parts = (node.textContent || "").match(/\S+|\s+/g) || [];
+
+    parts.forEach((part) => {
+      if (/^\s+$/.test(part)) {
+        const space = document.createElement("span");
+        space.className = "hanzo-space";
+        space.textContent = part;
+        fragment.append(space);
+        return;
+      }
+
+      const word = document.createElement("span");
+      word.className = "hanzo-word-unit";
+
+      [...part].forEach((character) => {
+        word.append(createCharacterSpan(character, state));
+      });
+
+      fragment.append(word);
+    });
+
+    node.replaceWith(fragment);
+  };
+
+  const splitNode = (node, state) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      splitTextNode(node, state);
+      return;
+    }
+
+    if (
+      node.nodeType !== Node.ELEMENT_NODE ||
+      node.classList.contains("hanzo-char") ||
+      node.classList.contains("hanzo-word-unit")
+    ) {
+      return;
+    }
+
+    [...node.childNodes].forEach((child) => splitNode(child, state));
+  };
+
+  targets.forEach((target) => {
+    if (target.dataset.proximitySplit === "true") return;
+
+    const state = { charIndex: 0 };
+    [...target.childNodes].forEach((node) => splitNode(node, state));
+    target.dataset.proximitySplit = "true";
+    timelineOffset += Math.min(280, state.charIndex * 8 + 80);
+  });
+};
+
+const initHeroVariableProximity = () => {
+  const letters = [...document.querySelectorAll(".hanzo-char")];
+
+  if (!letters.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const pointer = { x: null, y: null };
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+  let frameId = 0;
+
+  const ease = (value) => value * value * (3 - 2 * value);
+
+  const setLetters = () => {
+    frameId = 0;
+
+    if (pointer.x === null || pointer.y === null) {
+      letters.forEach((letter) => {
+        letter.style.removeProperty("--proximity-wght");
+        letter.style.removeProperty("--proximity-opsz");
+      });
+      return;
+    }
+
+    const radius = mobileQuery.matches ? 92 : 150;
+
+    letters.forEach((letter) => {
+      const rect = letter.getBoundingClientRect();
+      const letterX = rect.left + rect.width / 2;
+      const letterY = rect.top + rect.height / 2;
+      const distance = Math.hypot(pointer.x - letterX, pointer.y - letterY);
+      const proximity = ease(Math.max(0, Math.min(1, 1 - distance / radius)));
+      const weight = 500 + proximity * 260;
+      const opticalSize = 96 + proximity * 48;
+
+      letter.style.setProperty("--proximity-wght", weight.toFixed(1));
+      letter.style.setProperty("--proximity-opsz", opticalSize.toFixed(1));
+    });
+  };
+
+  const schedule = () => {
+    if (frameId) return;
+    frameId = requestAnimationFrame(setLetters);
+  };
+
+  const updatePointer = (x, y) => {
+    pointer.x = x;
+    pointer.y = y;
+    schedule();
+  };
+
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+      updatePointer(event.clientX, event.clientY);
+    },
+    { passive: true },
+  );
+
+  document.addEventListener("mouseleave", () => {
+    pointer.x = null;
+    pointer.y = null;
+    schedule();
+  });
+
+  window.addEventListener(
+    "touchmove",
+    (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      updatePointer(touch.clientX, touch.clientY);
+    },
+    { passive: true },
+  );
+};
+
 const splitExperienceTypingText = (element, baseDelay = 0) => {
   if (!element || element.dataset.experienceSplit === "true") return;
 
@@ -245,6 +389,8 @@ const initExperienceReveal = () => {
 };
 
 splitHeroText();
+splitProximityText();
+initHeroVariableProximity();
 initExperienceReveal();
 initAboutReveal();
 initHeroLogoStrip();
