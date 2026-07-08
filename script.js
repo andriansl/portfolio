@@ -500,3 +500,142 @@ window.addEventListener("resize", () => {
   scheduleScrollUpdate();
 });
 updateScrollState();
+
+
+const initDesignStack = () => {
+  const section = document.querySelector("[data-design-stack]");
+  if (!section) return;
+  const cardsWrap = section.querySelector(".design-stack__cards");
+  const cards = [...section.querySelectorAll(".design-stack-card")];
+  if (!cards.length || !cardsWrap) return;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced || window.matchMedia("(max-width: 767px)").matches) return;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const smoothstep = value => {
+    const t = clamp(value);
+    return t * t * (3 - 2 * t);
+  };
+
+  const targetDepths = [1.12, 0.72, 0];
+  const overlapDistance = 180;
+  const releaseHysteresis = 12;
+  let ticking = false;
+  let released = false;
+  let releaseScrollY = null;
+
+  const applyState = (card, depth) => {
+    const scale = Math.max(0.91, 1 - depth * 0.038);
+    const y = -depth * 5;
+    const blur = depth * 0.12;
+    card.style.setProperty("--stack-scale", scale.toFixed(4));
+    card.style.setProperty("--stack-y", `${y.toFixed(2)}px`);
+    card.style.setProperty("--stack-blur", `${blur.toFixed(2)}px`);
+  };
+
+  const getOverlapProgress = baseIndex => {
+    const currentCard = cards[baseIndex];
+    const nextCard = cards[baseIndex + 1];
+    if (!currentCard || !nextCard) return 0;
+
+    const currentContent = currentCard.querySelector(".design-stack-card__content");
+    const contentRect = currentContent?.getBoundingClientRect();
+    const nextRect = nextCard.getBoundingClientRect();
+    if (!contentRect) return 0;
+
+    const freezeLine = contentRect.top - 18;
+    const startLine = freezeLine + overlapDistance;
+    return smoothstep((startLine - nextRect.top) / overlapDistance);
+  };
+
+  const clearRelease = () => {
+    released = false;
+    releaseScrollY = null;
+    section.classList.remove("is-stack-released");
+    cardsWrap.style.height = "";
+    cards.forEach(card => card.style.removeProperty("--frozen-top"));
+  };
+
+  const releaseStack = () => {
+    if (released) return;
+    released = true;
+    releaseScrollY = window.scrollY;
+
+    const wrapRect = cardsWrap.getBoundingClientRect();
+    let maxBottom = 0;
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const top = rect.top - wrapRect.top;
+      const bottom = rect.bottom - wrapRect.top;
+      maxBottom = Math.max(maxBottom, bottom);
+      card.style.setProperty("--frozen-top", `${top.toFixed(2)}px`);
+    });
+
+    cardsWrap.style.height = `${Math.ceil(maxBottom + 24)}px`;
+    section.classList.add("is-stack-released");
+  };
+
+  const update = () => {
+    ticking = false;
+
+    if (released) {
+      if (window.scrollY < (releaseScrollY - releaseHysteresis)) {
+        clearRelease();
+      } else {
+        return;
+      }
+    }
+
+    const progress01 = getOverlapProgress(0);
+    const progress12 = getOverlapProgress(1);
+
+    const depths = [
+      targetDepths[0] * progress01,
+      targetDepths[1] * progress12,
+      targetDepths[2]
+    ];
+
+    cards.forEach((card, index) => {
+      applyState(card, depths[index] || 0);
+    });
+
+    if (progress12 >= 0.999) {
+      releaseStack();
+    }
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  update();
+};
+
+initDesignStack();
+
+
+
+const initDesignStackSpotlight = () => {
+  const cards = document.querySelectorAll(".design-stack-card");
+  if (!cards.length) return;
+
+  cards.forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+      card.style.setProperty("--spotlight-opacity", "1");
+    });
+
+    card.addEventListener("pointerleave", () => {
+      card.style.setProperty("--spotlight-opacity", "0");
+    });
+  });
+};
+
+initDesignStackSpotlight();
